@@ -60,6 +60,8 @@ SpriteSheet.prototype.grayscale = function(){
 
     this._modify();
 
+    return this;
+
 }
 
 SpriteSheet.prototype.invert = function(){
@@ -78,6 +80,8 @@ SpriteSheet.prototype.invert = function(){
     }
 
     this._modify();
+
+    return this;
 
 }
 
@@ -102,6 +106,69 @@ SpriteSheet.prototype.tint = function(r, g, b, a){
 
     return this;
 
+}
+
+SpriteSheet.prototype.sketch = function(threshold){
+
+    var threshold = threshold || 0.2;
+
+    for(var i = 0; i < this.imageSource.data.length; i += 4){
+
+        var _r = this.imageSource.data[i + 0];
+        var _g = this.imageSource.data[i + 1];
+        var _b = this.imageSource.data[i + 2];
+        var _a = this.imageSource.data[i + 3];
+
+        if(_a > 0){
+
+            var factor = _r + _g + _b * 0.3;
+
+            if(factor < ((255 * 3) * threshold)){
+                this.imageSource.data[i + 0] = 0;
+                this.imageSource.data[i + 1] = 0;
+                this.imageSource.data[i + 2] = 0;
+                this.imageSource.data[i + 3] = 255;
+            }else{
+                this.imageSource.data[i + 0] = 0;
+                this.imageSource.data[i + 1] = 0;
+                this.imageSource.data[i + 2] = 0;
+                this.imageSource.data[i + 3] = 0;
+            }
+        }
+    }
+
+    this._modify();
+
+    return this;
+}
+
+SpriteSheet.prototype.cartoon = function(threshold){
+
+    var threshold = threshold || 0.2;
+
+    for(var i = 0; i < this.imageSource.data.length; i += 4){
+
+        var _r = this.imageSource.data[i + 0];
+        var _g = this.imageSource.data[i + 1];
+        var _b = this.imageSource.data[i + 2];
+        var _a = this.imageSource.data[i + 3];
+
+        if(_a > 0){
+
+            var factor = _r + _g + _b * 0.3;
+
+            if(factor < ((255 * 3) * threshold)){
+                this.imageSource.data[i + 0] = 0;
+                this.imageSource.data[i + 1] = 0;
+                this.imageSource.data[i + 2] = 0;
+                this.imageSource.data[i + 3] = 255;
+            }
+        }
+    }
+
+    this._modify();
+
+    return this;
 }
 
 SpriteSheet.prototype.fillTransparentPixel = function(r, g, b, threshold){
