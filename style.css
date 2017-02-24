@@ -1,0 +1,5 @@
+* { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+body{ background-color: #222234; margin: 0px; padding: 0px; overflow: hidden; }
+
+canvas{position: absolute; top: 0px; left: 0px;}
