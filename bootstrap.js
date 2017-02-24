@@ -1,6 +1,8 @@
 // get lib directory
 var script = document.querySelector('script');
 var libRoot = script.src;
+var initScript = script.getAttribute('data-initScript');
+
 var file = libRoot.split('/').pop();
 var libRoot = libRoot.replace(file, '');
 
@@ -632,7 +634,7 @@ libRequest.onload = function(){
 	document.querySelector('body').style.background = 'url('+ libRoot + 'Resource/Image/background.png' +')';
 
 	new FileRequest([
-		PROJECT_URL + 'js/PreloadMovie.js'
+		PROJECT_URL + initScript
 		]);
 
 }
