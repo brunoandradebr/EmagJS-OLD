@@ -1,2 +1,69 @@
 # EmagJS
 A game engine made from the scratch for the purpose of studying game development.
+
+
+## Usage
+<br>
+**Create your project structure** :
+  * App/
+   * Index.html
+   * Script.js
+  * EmagJs/
+  
+<br>
+
+**App/index.html** :
+
+```html
+<html>
+
+<head>
+  <script src="../EmagJS/bootstrap.js" data-initScript="js/Script.js"></script>
+</head>
+
+<body> <!-- Nothing goes here --> </body>
+
+</html>
+```
+**data-initScript** indicates the very first script to execute after EmagJS lib is loaded. <br>
+
+That's all you need to start using the engine :D
+<br>
+
+## Hello World!
+
+**App/Script.js**
+```html
+<script>
+
+// create a movie handler
+var MainMovie = new Movie();
+
+// add a new scene to the movie
+MainMovie.addScene('main', {
+
+    // ever you enter the main scene
+    onEnter : function(scene){
+        
+        // create a sprite
+        scene.box = new Sprite();
+        scene.box.position.update(100, 100);
+        scene.box.fillColor = 'orange';
+        
+    },
+
+    // main scene loop. where everything happens =)
+    onLoop : function(scene, dt){
+
+        // draw the sprite
+        scene.box.draw(scene.graphics, dt);
+
+    }
+
+});
+
+// play movie's scenes. there's only the main scene, so, it's the scene to play
+MainMovie.playMovie();
+
+</script>
+```
