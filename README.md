@@ -33,9 +33,7 @@ That's all you need to start using the engine :D
 ## Hello World!
 
 **App/Script.js**
-```html
-<script>
-
+```js
 // create a movie handler
 var MainMovie = new Movie();
 
@@ -65,5 +63,3 @@ MainMovie.addScene('main', {
 // play movie's scenes. there's only the main scene, so, it's the scene to play
 MainMovie.playMovie();
 
-</script>
-```
