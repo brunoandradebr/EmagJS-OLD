@@ -18,7 +18,7 @@ A game engine made from the scratch for the purpose of studying game development
 <html>
 
 <head>
-  <script src="../EmagJS/bootstrap.js" data-initScript="js/Script.js"></script>
+  <script src="../EmagJS/bootstrap.js" data-initScript="Script.js"></script>
 </head>
 
 <body> <!-- Nothing goes here --> </body>
