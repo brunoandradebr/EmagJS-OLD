@@ -627,10 +627,12 @@ var libRequest = new FileRequest([
 
 
 
-
 // and there was light...
 libRequest.onload = function(){
 
+	// add signature
+	authorSignature();
+	
 	document.querySelector('body').style.background = 'url('+ libRoot + 'Resource/Image/background.png' +')';
 
 	new FileRequest([
