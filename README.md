@@ -62,4 +62,3 @@ MainMovie.addScene('main', {
 
 // play movie's scenes. there's only the main scene, so, it's the scene to play
 MainMovie.playMovie();
-
