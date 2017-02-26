@@ -57,7 +57,8 @@ MainMovie.addScene('main', {
         scene.box.draw(scene.graphics, dt);
 
     },
-
+  
+    // ever change orientation or resize screen
     onUpdateScreen : function(scene){
 
         scene.box.position.update(DEVICE_CENTER_X, DEVICE_CENTER_Y);
