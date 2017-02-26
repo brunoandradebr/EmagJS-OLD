@@ -45,7 +45,7 @@ MainMovie.addScene('main', {
         
         // create a sprite
         scene.box = new Sprite();
-        scene.box.position.update(100, 100);
+        scene.box.position.update(DEVICE_CENTER_X, DEVICE_CENTER_Y);
         scene.box.fillColor = 'orange';
         
     },
@@ -55,6 +55,12 @@ MainMovie.addScene('main', {
 
         // draw the sprite
         scene.box.draw(scene.graphics, dt);
+
+    },
+
+    onUpdateScreen : function(scene){
+
+        scene.box.position.update(DEVICE_CENTER_X, DEVICE_CENTER_Y);
 
     }
 
