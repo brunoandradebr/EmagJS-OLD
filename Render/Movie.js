@@ -67,12 +67,7 @@ Movie.prototype.playScene = function(ArSceneID){
         var Scene = _this.scenes[ArSceneID[i]];
 
         if(Scene.onEnter && !Scene.initialized){
-
-            // prevent ios scroll and zoom
-            Scene.canvas.addEventListener('touchmove', function(e){
-                e.preventDefault();
-            });
-
+                        
             window.addEventListener('resize', function(){
 
                 if(Scene.autoResize){

@@ -314,7 +314,7 @@ FileRequest.prototype.request = function(){
 		setTimeout(function(){
 			if(File.onload)
 				File.onload();
-		}, 1);
+		}, 11);
 
 	}
 

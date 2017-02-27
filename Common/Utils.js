@@ -46,7 +46,10 @@ window.addEventListener('resize', function(){
     DEVICE_CENTER_X = DEVICE_WIDTH * 0.5;
     DEVICE_CENTER_Y = DEVICE_HEIGHT * 0.5;
 });
-
+// prevent ios scroll and zoom
+window.addEventListener('touchmove', function(e){
+    e.preventDefault();
+});
 
 
 
