@@ -200,111 +200,124 @@ FileRequest.prototype.request = function(){
 	var _FontFiles = [];
 	File.totalFontLoaded = 0;
 
-	File.resource.url.forEach(function(url){
+	if(File.resource.url.length){
+		File.resource.url.forEach(function(url){
 
-		var Request = new XMLHttpRequest();
+			var Request = new XMLHttpRequest();
 
-		// set response type based on file
-		if(File.getFileType(url) === 'mp3'){
-			Request.responseType = 'arraybuffer';
-		}else{
-			Request.responseType = 'text';
-		}
+			// set response type based on file
+			if(File.getFileType(url) === 'mp3'){
+				Request.responseType = 'arraybuffer';
+			}else{
+				Request.responseType = 'text';
+			}
 
-		Request.onreadystatechange = function(e){
+			Request.onreadystatechange = function(e){
 
-			var response = e.target;
+				var response = e.target;
 
-			if(response.readyState == 4){
+				if(response.readyState == 4){
 
-				switch(File.getFileType(response.responseURL)){
+					switch(File.getFileType(response.responseURL)){
 
-					case 'js' :
-					_JsFiles[response.responseURL] = response.responseURL;
-					_JsFiles.length++;
-					File.resource.script[File.getFileName(response.responseURL)] = response.response;
-					File.resource.script.length++;
-					break;
+						case 'js' :
+						_JsFiles[response.responseURL] = response.responseURL;
+						_JsFiles.length++;
+						File.resource.script[File.getFileName(response.responseURL)] = response.response;
+						File.resource.script.length++;
+						break;
 
-					case 'mp3' :
-					_AudioFiles.push({
-						buffer : response.response,
-						name : File.getFileName(response.responseURL),
-						type : File.getFileType(response.responseURL)
-					});
-					break;
+						case 'mp3' :
+						_AudioFiles.push({
+							buffer : response.response,
+							name : File.getFileName(response.responseURL),
+							type : File.getFileType(response.responseURL)
+						});
+						break;
 
-					case 'png' : case 'jpg' :
-					_ImageFiles.push({
-						src : response.responseURL,
-						name : File.getFileName(response.responseURL),
-						type : File.getFileType(response.responseURL)
-					});
-					File.resource.image.length++;
-					break;
+						case 'png' : case 'jpg' :
+						_ImageFiles.push({
+							src : response.responseURL,
+							name : File.getFileName(response.responseURL),
+							type : File.getFileType(response.responseURL)
+						});
+						File.resource.image.length++;
+						break;
 
-					case 'ttf' :
-					_FontFiles.push({
-						name : File.getFileName(response.responseURL),
-						type : File.getFileType(response.responseURL),
-						url  : response.responseURL,
-						data : response.response
-					});
-					break;
+						case 'ttf' :
+						_FontFiles.push({
+							name : File.getFileName(response.responseURL),
+							type : File.getFileType(response.responseURL),
+							url  : response.responseURL,
+							data : response.response
+						});
+						break;
+
+					}
+
+					File.loaded++;
 
 				}
 
-				File.loaded++;
-
 			}
 
-		}
+			Request.onprogress = function(e){
 
-		Request.onprogress = function(e){
+				var file = e.target.responseURL.split('/').pop();
 
-			var file = e.target.responseURL.split('/').pop();
+				var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+				var i = parseInt(Math.floor(Math.log(e.loaded) / Math.log(1024)));
+				var loaded = Math.round(e.loaded / Math.pow(1024, i), 2) + '' + sizes[i];
+				var i = parseInt(Math.floor(Math.log(e.total) / Math.log(1024)));
+				var total = Math.round(e.total / Math.pow(1024, i), 2) + '' + sizes[i];
 
-			var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-			var i = parseInt(Math.floor(Math.log(e.loaded) / Math.log(1024)));
-			var loaded = Math.round(e.loaded / Math.pow(1024, i), 2) + '' + sizes[i];
-			var i = parseInt(Math.floor(Math.log(e.total) / Math.log(1024)));
-			var total = Math.round(e.total / Math.pow(1024, i), 2) + '' + sizes[i];
+				if(File.onprogress)
+					File.onprogress(file, loaded, total);
+			}
 
-			if(File.onprogress)
-				File.onprogress(file, loaded, total);
-		}
+			Request.onload = function(e){
 
-		Request.onload = function(e){
+				if(File.loaded == File.total){
 
-			if(File.loaded == File.total){
+					// preload images files
+					File.preloadImageFiles(_ImageFiles, function(){
 
-				// preload images files
-				File.preloadImageFiles(_ImageFiles, function(){
+						// preload fonts files
+						File.preloadFontFiles(_FontFiles, function(){
 
-					// preload fonts files
-					File.preloadFontFiles(_FontFiles, function(){
+							// preload audio files
+							File.preloadAudioFiles(_AudioFiles, function(){
 
-						// preload audio files
-						File.preloadAudioFiles(_AudioFiles, function(){
+								// preload all js files
+								File.preloadJsFiles(_JsFiles, function(){
 
-							// preload all js files
-							File.preloadJsFiles(_JsFiles, function(){
+									// if there is a onload method
+									if(File.onload)
+										File.onload();
 
-								// if there is a onload method
-								if(File.onload)
-									File.onload();
-
+								});
 							});
 						});
 					});
-				});
+				}
 			}
-		}
 
-		Request.open('GET', url, true);
-		Request.send();
+			Request.open('GET', url, true);
+			Request.send();
 
-	});
+		});
+
+	}else{
+
+		// there is no file to be loaded
+		// if there is a onload method
+		setTimeout(function(){
+			if(File.onload)
+				File.onload();
+		}, 1);
+
+	}
+
 }
 
 /**
