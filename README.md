@@ -1,5 +1,5 @@
 # EmagJS 
-A game engine made from the scratch for the purpose of studying game development. current prototype <a target="_blank" href="http://www.acoabaia.com.br/prototipo">here</a>
+A game engine made from the scratch for the purpose of studying game development. current prototype <a target="_blank" href="http://www.acobaia.com.br/prototipo">here</a>
 
 
 ## Usage
