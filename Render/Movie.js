@@ -110,7 +110,7 @@ Movie.prototype.playScene = function(ArSceneID){
             requestAnimationFrame(function(){
                 if(!paused){
                     Scene.graphics.clearRect(0, 0, Scene.graphics.canvas.width, Scene.graphics.canvas.height);
-                    Scene.onLoop(Scene, dt / 1000);
+                    Scene.onLoop(Scene, dt * 0.001);
                 }
             });
 
