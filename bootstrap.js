@@ -625,6 +625,7 @@ var libRequest = new FileRequest([
 	libRoot + 'Geom/Triangle.js',
 	libRoot + 'Geom/Circle.js',
 	libRoot + 'Physics/Particle.js',
+	libRoot + 'Render/Text.js',
 	libRoot + 'Render/Shape.js',
 	libRoot + 'Render/Scene.js',
 	libRoot + 'Render/Movie.js',
