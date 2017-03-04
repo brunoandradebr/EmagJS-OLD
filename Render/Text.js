@@ -1,16 +1,35 @@
-function Text(text, x, y, color, font, size, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY){
+function Text(text, x, y, color, font, size, stroke, strokeColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY){
 
     this.x = x || 0;
     this.y = y || 0;
     this.color = color || 'black';
     this.font = font || 'commodore';
-    this.size = size || 24;
+    this.stroke = stroke || false;
+    this.strokeWidth = this.strokeWidth || 1;
+    this.strokeColor = this.strokeColor || 'black';
 
-    var defaultText = text || '';
+    var _size = size || 24;
+
+    Object.defineProperty(this, 'size', {
+
+        get : function(){ return _size; },
+
+        // ever when change text size, calculate it's width
+        set : function(size){
+
+            // just 'change' text content to force width calculation
+            _size = size;
+
+            this.text = this.text;
+        }
+
+    });
+
+    var _text = text || '';
 
     Object.defineProperty(this, 'text', {
 
-        get : function(){ return defaultText; },
+        get : function(){ return _text; },
 
         // ever when change text content, calculate it's width
         set : function(text){
@@ -21,12 +40,13 @@ function Text(text, x, y, color, font, size, shadowBlur, shadowColor, shadowOffs
             tmpCanvasContext.fillText(text, 0, 0);
             var measure = tmpCanvasContext.measureText(text);
             this.width = measure.width;
-            defaultText = text;
+            _text = text;
         }
 
     });
 
     this.text = text || '';
+    this.size = size || 24;
     
     this.shadowBlur = (shadowBlur != null) ? shadowBlur : null;
     this.shadowColor = shadowColor || 'black';
@@ -38,16 +58,27 @@ Text.prototype.constructor = Text;
 
 Text.prototype.draw = function(graphics){
 
+    graphics.textAlign = 'center';
+    graphics.textBaseline = 'middle';
+
     graphics.font = this.size + 'px ' + this.font;
-    
+
+    graphics.save();
+
     if(this.shadowBlur != null){
         graphics.shadowBlur = this.shadowBlur;
         graphics.shadowColor = this.shadowColor;
         graphics.shadowOffsetX = this.shadowOffsetX;
         graphics.shadowOffsetY = this.shadowOffsetY;
     }
-    
+    if(this.stroke){
+        graphics.lineWidth = this.strokeWidth;
+        graphics.strokeStyle = this.strokeColor;
+        graphics.strokeText(this.text, this.x + this.width * 0.5, this.y + this.size * 0.5);
+    }
     graphics.fillStyle = this.color;
-    graphics.fillText(this.text, this.x, this.size + this.y);
-    
+    graphics.fillText(this.text, this.x + this.width * 0.5, this.y + this.size * 0.5);
+
+    graphics.restore();
+
 }
