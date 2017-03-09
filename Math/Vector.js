@@ -5,6 +5,60 @@ function Vector(x, y, z){
 }
 Vector.prototype.constructor = Vector;
 
+Vector.fromArray = function(array){
+
+    return new Vector(array[0], array[1], array[2]);
+}
+
+Vector.fromObject = function(object){
+
+    return new Vector(object.x, object.y, object.z);
+}
+
+Vector.fromAngle = function(angle, length){
+    var x = Math.cos(angle * TO_RAD) * length;
+    var y = -Math.sin(angle * TO_RAD) * length;
+    return new Vector(x, y);
+}
+
+Vector.angle = function(A, B, inDegree){
+
+    var inDegree = inDegree || false;
+
+    var dot = A.clone().normalize().dot(B.clone().normalize());
+
+    return inDegree ? Math.round(Math.acos(dot) * TO_DEGREE) : dot;
+}
+
+Vector.angleBetween = function(A, B, inDegree){
+
+    var inDegree = inDegree || false;
+
+    var A_angle = Math.atan2(A.y, A.x);
+    var B_angle = Math.atan2(B.y, B.x);
+    var C = Vector.fromAngle(B_angle * TO_DEGREE - A_angle * TO_DEGREE, 1);
+
+    return C.angle(inDegree);
+
+}
+
+Vector.prototype.toString = function(){
+
+    return 'Vector(' + this.x + ', ' + this.y + ')';
+}
+
+Vector.prototype.toObject = function(){
+
+    return {x : this.x, y : this.y, z : this.z};
+}
+
+Vector.prototype.toArray = function(){
+    var _Array = [];
+    _Array[0] = this.x;
+    _Array[1] = this.y;
+    _Array[2] = this.z;
+    return _Array
+}
 
 Vector.prototype.add = function(Vector){
 
@@ -187,21 +241,78 @@ Vector.prototype.rightNormal = function(){
     return new Vector(-this.y, this.x, this.z);
 }
 
-Vector.prototype.angle = function(degree){
+Vector.prototype.rotate = function(angle, startAngle){
 
-    var degree = degree || false;
+    var originalLenght = this.length();
+
+    var startAngle = startAngle || 0;
+    var angle = startAngle ? (-startAngle - angle) * TO_RAD : -angle * TO_RAD;
+
+    var x = Math.cos(angle);
+    var y = Math.sin(angle);
+
+    this.update(x, y).normalize().multiply(originalLenght);
+
+    return this;
+
+}
+
+Vector.prototype.angle = function(inDegree){
+
+    var inDegree = inDegree || false;
 
     var angle = -Math.atan2(this.y, this.x);
 
     if(angle < 0) angle += Math.PI * 2;
 
-    return degree ? Math.round(angle * TO_DEGREE) : angle;
+    return inDegree ? Math.round(angle * TO_DEGREE) : angle;
+}
 
+Vector.prototype.direction = function(){
+
+    return this.clone().normalize();
+}
+
+Vector.prototype.distance = function(Vector){
+    var dx = this.x - Vector.x;
+    var dy = this.y - Vector.y;
+    var distance = Math.sqrt(dx * dx + dy * dy);
+    return distance;
+}
+
+Vector.prototype.distanceSquared = function(Vector){
+    var dx = this.x - Vector.x;
+    var dy = this.y - Vector.y;
+    var distance = dx * dx + dy * dy;
+    return distance;
+}
+
+Vector.prototype.limit = function(x, y, z){
+    this.x = this.x <= x ? this.x : x;
+    this.y = this.y <= y ? this.y : y;
+    this.z = this.z <= z ? this.z : z;
+    return this;
+}
+
+Vector.prototype.round = function(){
+    this.x = Math.round(this.x);
+    this.y = Math.round(this.y);
+    return this;
 }
 
 Vector.prototype.reverse = function(){
 
     return this.multiply(-1);
+}
+
+Vector.prototype.reverseX = function(){
+    this.x *= -1;
+    return this;
+}
+
+Vector.prototype.reverseY = function(){
+    this.y *= -1;
+    return this;
 }
 
 Vector.prototype.update = function(x, y, z){

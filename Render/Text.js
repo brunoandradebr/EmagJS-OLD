@@ -45,7 +45,7 @@ function Text(text, x, y, color, font, size, stroke, strokeColor, shadowBlur, sh
 
     });
 
-    this.text = text || '';
+    this.text = (text != null) ? text : '';
     this.size = size || 24;
     
     this.shadowBlur = (shadowBlur != null) ? shadowBlur : null;
