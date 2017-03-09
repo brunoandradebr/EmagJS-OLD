@@ -618,6 +618,7 @@ FileRequest.prototype.preloadFontFiles = function(FontFiles, callback){
 // load lib files
 var libRequest = new FileRequest([
 	libRoot + 'Common/Utils.js',
+	libRoot + 'Common/Timer.js',
 	libRoot + 'Math/Vector.js',
 	libRoot + 'Geom/Polygon.js',
 	libRoot + 'Geom/Square.js',
