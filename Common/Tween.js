@@ -1,11 +1,16 @@
-function Tween(start, end, duration, type, loop){
+function Tween(target, property, start, end, duration, type, loop, onComplete){
 
     this.startTime = window.performance.now();
+    this.target = target;
+    this.property = property;
     this.start = start;
     this.end = end;
     this.duration = duration || 1000;
     this.type = type || 'linear';
     this.loop = loop || false;
+
+    this.completed = false;
+    this.onComplete = onComplete;
 
     return this;
 
@@ -23,9 +28,28 @@ Tween.prototype.value = function(){
         var t = t / this.duration;
         _return = Math.round(this.start + (diff * t));
     }else{
-        if(this.loop)
+        if(this.onComplete){
+            if(!this.completed){
+                this.onComplete();
+                this.completed = true;
+            }
+        }
+        if(this.loop){
             this.startTime = window.performance.now();
+            this.completed = false;
+        }
     }
 
     return _return;
+}
+
+Tween.prototype.play = function(){
+
+    var property = this.property.split('.');
+
+    if(property.length > 1){
+        this.target[property[0]][property[1]] = this.value();
+    }else{
+        this.target[this.property] = this.value();
+    }
 }
