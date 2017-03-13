@@ -32,11 +32,10 @@ Tween.prototype.value = function(){
             _return = Math.round(this.start + (diff * t));
         }
     }else{
-        if(this.onComplete){
-            if(!this.completed){
+        if(!this.completed){
+            if(this.onComplete)
                 this.onComplete();
-                this.completed = true;
-            }
+            this.completed = true;
         }
         if(this.loop){
             this.startTime = window.performance.now();

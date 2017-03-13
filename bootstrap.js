@@ -620,6 +620,7 @@ var libRequest = new FileRequest([
 	libRoot + 'Common/Utils.js',
 	libRoot + 'Common/Timer.js',
 	libRoot + 'Common/Tween.js',
+	libRoot + 'Common/Timeline.js',
 	libRoot + 'Math/Vector.js',
 	libRoot + 'Geom/Polygon.js',
 	libRoot + 'Geom/Square.js',
