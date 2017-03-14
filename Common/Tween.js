@@ -27,9 +27,9 @@ Tween.prototype.value = function(){
     if(this.startTime + this.duration > window.performance.now()){
         var t = t / this.duration;
         if(this.type == 'quadratic'){
-            _return = Math.round(this.start + (diff * t * t));
+            _return = this.start + (diff * t * t);
         }else{
-            _return = Math.round(this.start + (diff * t));
+            _return = this.start + (diff * t);
         }
     }else{
         if(!this.completed){

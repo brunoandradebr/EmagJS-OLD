@@ -1,9 +1,9 @@
-function Timeline(loop, callback, repeat){
+function Timeline(loop, onComplete, repeat){
 
     this.tweens = [];
     this._tweenIndex = 0;
     this.loop = loop || false;
-    this.callback = callback || undefined;
+    this.onComplete = onComplete || undefined;
     this.repeat = repeat || 1;
     this._repeatCount = 0;
 
@@ -16,7 +16,10 @@ Timeline.prototype.add = function(label, frames){
         label : label,
         frames : frames
     };
+    
     this.tweens.push(tween);
+
+    return this;
 }
 
 Timeline.prototype.reset = function(){
@@ -71,8 +74,8 @@ Timeline.prototype.play = function(){
                 if(_this.loop)
                     _this._tweenIndex = 0;
 
-                if(_this.callback)
-                    _this.callback();
+                if(_this.onComplete)
+                    _this.onComplete();
                 
             }
         }

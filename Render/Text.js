@@ -7,6 +7,7 @@ function Text(text, x, y, color, font, size, stroke, strokeColor, shadowBlur, sh
     this.stroke = stroke || false;
     this.strokeWidth = this.strokeWidth || 1;
     this.strokeColor = this.strokeColor || 'black';
+    this.alpha = 1;
 
     var _size = size || 24;
 
@@ -71,6 +72,11 @@ Text.prototype.draw = function(graphics){
         graphics.shadowOffsetX = this.shadowOffsetX;
         graphics.shadowOffsetY = this.shadowOffsetY;
     }
+
+    // alpha
+    if(this.alpha >= 0)
+        graphics.globalAlpha = this.alpha;
+    
     if(this.stroke){
         graphics.lineWidth = this.strokeWidth;
         graphics.strokeStyle = this.strokeColor;
