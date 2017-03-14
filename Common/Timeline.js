@@ -82,3 +82,22 @@ Timeline.prototype.play = function(){
 
     });
 }
+
+Timeline.prototype.update = function(label, frame, start, end){
+
+    var _this = this;
+
+    var tmpTween;
+
+    _this.tweens.forEach(function(tween){
+
+        if(tween.label === label){
+            tmpTween = tween.frames[frame];
+        }
+
+    });
+
+    tmpTween.start = start;
+    tmpTween.end = end;
+
+}
