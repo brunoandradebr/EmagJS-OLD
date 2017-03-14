@@ -1,7 +1,5 @@
 function Text(text, x, y, color, font, size, stroke, strokeColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY){
-
-    this.x = x || 0;
-    this.y = y || 0;
+    
     this.color = color || 'black';
     this.font = font || 'commodore';
     this.stroke = stroke || false;
@@ -49,6 +47,9 @@ function Text(text, x, y, color, font, size, stroke, strokeColor, shadowBlur, sh
     this.text = (text != null) ? text : '';
     this.size = size || 24;
     
+    this.x = x - this.width * 0.5 || 0;
+    this.y = y - this.size * 0.5 || 0;
+
     this.shadowBlur = (shadowBlur != null) ? shadowBlur : null;
     this.shadowColor = shadowColor || 'black';
     this.shadowOffsetX = shadowOffsetX || 1;
