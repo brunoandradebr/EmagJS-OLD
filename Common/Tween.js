@@ -25,12 +25,7 @@ Tween.prototype.value = function(){
     var diff = this.end - this.start;
 
     if(this.startTime + this.duration > window.performance.now()){
-        var t = t / this.duration;
-        if(this.type == 'quadratic'){
-            _return = this.start + (diff * t * t);
-        }else{
-            _return = this.start + (diff * t);
-        }
+        return this[this.type](diff, this.start, this.duration, t);
     }else{
         if(!this.completed){
             if(this.onComplete)
@@ -55,4 +50,51 @@ Tween.prototype.play = function(){
     }else{
         this.target[this.property] = this.value();
     }
+}
+
+Tween.prototype.linear = function(d, s, i, t){
+    return s + (d * t / i);
+}
+
+Tween.prototype.quadraticIn = function(d, s, i, t){
+    var t = t / i;
+    return s + (d * t * t);
+}
+
+Tween.prototype.quadraticOut = function(d, s, i, t){
+    var t = t / i;
+    return s + (-d * (t - 2) * t);
+}
+
+Tween.prototype.quadraticInOut = function(d, s, i, t){
+    var t = t / (i * 0.5);
+
+    if(t < 1){
+        return s + (d * 0.5 * t * t);
+    }
+
+    t--;
+    return s + ( (-d * 0.5) * (t * (t - 2) -1) );
+}
+
+Tween.prototype.cubicIn = function(d, s, i, t){
+    var t = t / i;
+    return s + (d * t * t * t);
+}
+
+Tween.prototype.cubicOut = function(d, s, i, t){
+    var t = t / i;
+    t--;
+    return s + (d * (t * t * t + 1));
+}
+
+Tween.prototype.cubicInOut = function(d, s, i, t){
+    var t = t / (i * 0.5);
+
+    if(t < 1){
+        return s + (d * 0.5 * t * t * t);
+    }
+
+    t -= 2;
+    return s + ( (d * 0.5) * (t * t * t + 2) );
 }
