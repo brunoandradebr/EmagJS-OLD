@@ -24,6 +24,10 @@ Timeline.prototype.add = function(label, frames){
 }
 
 Timeline.prototype.reset = function(){
+
+    this._tweenIndex = 0;
+    this.completed = false;
+
     for(var i in this.tweens){
 
         var tween = this.tweens[i];
@@ -31,9 +35,11 @@ Timeline.prototype.reset = function(){
         tween.frames.forEach(function(frame){
 
             frame.startTime = window.performance.now();
+            frame.completed = false;
             
         });
     }
+
 }
 
 Timeline.prototype.play = function(){
@@ -62,7 +68,17 @@ Timeline.prototype.play = function(){
                 frame.completed = false;
             
             _this._tweenIndex++;
-            _this.reset();
+
+            for(var i in _this.tweens){
+
+                var tween = _this.tweens[i];
+
+                tween.frames.forEach(function(frame){
+
+                    frame.startTime = window.performance.now();
+
+                });
+            }
 
             // completed animation
             if(!_this.tweens[_this._tweenIndex]){
