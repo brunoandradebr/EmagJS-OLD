@@ -3,6 +3,7 @@ function Timeline(loop, onComplete, repeat){
     this.tweens = [];
     this._tweenIndex = 0;
     this.loop = loop || false;
+    this.completed = false;
     this.onComplete = onComplete || undefined;
     this.repeat = repeat || 1;
     this._repeatCount = 0;
@@ -74,8 +75,11 @@ Timeline.prototype.play = function(){
                 if(_this.loop)
                     _this._tweenIndex = 0;
 
-                if(_this.onComplete)
+                if(_this.onComplete){
                     _this.onComplete();
+                }
+                
+                _this.completed = true;
                 
             }
         }

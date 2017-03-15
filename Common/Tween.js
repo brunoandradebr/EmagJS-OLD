@@ -98,3 +98,17 @@ Tween.prototype.cubicInOut = function(d, s, i, t){
     t -= 2;
     return s + ( (d * 0.5) * (t * t * t + 2) );
 }
+
+Tween.prototype.bounce = function(d, s, i, t){
+
+    var t = t / i;
+
+    t = t<1/2.75?
+    7.5625*t*t:t<2/2.75?
+    7.5625*(t-=1.5/2.75)*t+.75:t<2.5/2.75?
+    7.5625*(t-=2.25/2.75)*t+.9375:
+    7.5625*(t-=2.625/2.75)*t+.984375;
+
+    return s + d * t
+
+}
