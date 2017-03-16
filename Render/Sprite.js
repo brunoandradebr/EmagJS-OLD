@@ -122,7 +122,7 @@ Sprite.prototype.draw = function(graphics, dt){
     // fillColor
     if(this.fillColor){
         graphics.fillStyle = this.fillColor;
-        graphics.fillRect(-this.width * this.anchor.x, -this.height * this.anchor.y, this.width, this.height);
+        graphics.fillRect(-this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
     }
 
 
@@ -151,12 +151,12 @@ Sprite.prototype.draw = function(graphics, dt){
             this._playAnimation(dt);
 
             // draw current frame
-            graphics.drawImage(this.spriteSheet.image, this.currentAnimation.frames[this.currentAnimation.currentFrame].x, this.currentAnimation.frames[this.currentAnimation.currentFrame].y, this.frameWidth, this.frameHeight, -this.width * this.anchor.x, -this.height * this.anchor.y, this.width, this.height);
+            graphics.drawImage(this.spriteSheet.image, this.currentAnimation.frames[this.currentAnimation.currentFrame].x, this.currentAnimation.frames[this.currentAnimation.currentFrame].y, this.frameWidth, this.frameHeight, -this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
 
         }else{
 
             // ordinary sprite
-            graphics.drawImage(this.spriteSheet.image, 0, 0, this.spriteSheet.image.width, this.spriteSheet.image.height, -this.width * this.anchor.x, -this.height * this.anchor.y, this.width, this.height);
+            graphics.drawImage(this.spriteSheet.image, 0, 0, this.spriteSheet.image.width, this.spriteSheet.image.height, -this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
 
         }
     }
