@@ -111,7 +111,8 @@ Sprite.prototype.draw = function(graphics, dt){
 
 
     // alpha
-    if(this.alpha >= 0)
+    if(this.alpha < 0) this.alpha = 0;
+    if(this.alpha != 1 && this.alpha >= 0)
         graphics.globalAlpha = this.alpha;
 
 
