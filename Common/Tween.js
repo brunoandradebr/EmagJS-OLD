@@ -52,6 +52,10 @@ Tween.prototype.play = function(){
     }
 }
 
+Tween.prototype.copy = function(){
+    return new Tween(this.target, this.property, this.start, this.end, this.duration, this.type, this.loop, this.onComplete);
+}
+
 Tween.prototype.linear = function(d, s, i, t){
     return s + (d * t / i);
 }

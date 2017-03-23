@@ -56,8 +56,6 @@ Sprite.prototype.setAnimation = function(IDAnimation){
 
     this.currentAnimation = this.animations[IDAnimation];
     this.currentAnimation.currentFrame = 0;
-    this.currentAnimation.currentFrame = 0;
-
 }
 
 Sprite.prototype.pauseAnimation = function(){

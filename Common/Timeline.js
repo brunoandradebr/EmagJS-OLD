@@ -11,7 +11,7 @@ function Timeline(loop, onComplete, repeat){
 }
 Timeline.prototype.constructor = Timeline;
 
-Timeline.prototype.add = function(label, frames){
+Timeline.prototype.add = function(label, frames, reverse){
 
     var tween = {
         label : label,
@@ -20,7 +20,30 @@ Timeline.prototype.add = function(label, frames){
     
     this.tweens.push(tween);
 
+    if(reverse)
+        this._addReverse();
+
     return this;
+}
+
+Timeline.prototype._addReverse = function(){
+
+    var lastTween = this.tweens[this.tweens.length - 1];
+
+    var clones = [];
+
+    lastTween.frames.forEach(function(tween){
+
+        var clone = tween.copy();
+        var tmpStart = clone.start;
+        clone.start = clone.end;
+        clone.end = tmpStart;
+        clones.push(clone);
+        
+    });
+
+    this.add(lastTween.label, clones);
+
 }
 
 Timeline.prototype.reset = function(){
