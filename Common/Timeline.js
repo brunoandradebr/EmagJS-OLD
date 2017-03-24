@@ -5,6 +5,7 @@ function Timeline(loop, onComplete, repeat){
     this.loop = loop || false;
     this.completed = false;
     this.onComplete = onComplete || undefined;
+    this.onPlay = undefined;
     this.repeat = repeat || 1;
     this._repeatCount = 0;
 
@@ -80,6 +81,8 @@ Timeline.prototype.play = function(){
     currentTweenFrames.forEach(function(frame){
 
         frame.play();
+        if(_this.onPlay)
+            _this.onPlay();
 
         if(frame.completed){
             totalFramesPlayed++;
