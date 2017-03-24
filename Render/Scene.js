@@ -15,38 +15,46 @@
 */
 function Scene(ID, SettingsObject){
 
-    this.ID = ID;
+    var _this = this;
+
+    _this.ID = ID;
 
     // Scene appearance settings
-    this.x = SettingsObject.x || 0;
-    this.y = SettingsObject.y || 0;
-    this.width = SettingsObject.width != null ? SettingsObject.width : DEVICE_WIDTH;
-    this.height = SettingsObject.height != null ? SettingsObject.height : DEVICE_HEIGHT;
-    this.backgroundColor = SettingsObject.backgroundColor || 'transparent';
-    this.autoResize = SettingsObject.autoResize || false;
+    _this.x = SettingsObject.x || 0;
+    _this.y = SettingsObject.y || 0;
+    _this.width = SettingsObject.width != null ? SettingsObject.width : DEVICE_WIDTH;
+    _this.height = SettingsObject.height != null ? SettingsObject.height : DEVICE_HEIGHT;
+    _this.backgroundColor = SettingsObject.backgroundColor || 'transparent';
+    _this.autoResize = SettingsObject.autoResize || false;
     // Scene states
-    this.onEnter = SettingsObject.onEnter;
-    this.onLoop = SettingsObject.onLoop;
-    this.onLeave = SettingsObject.onLeave;
-    this.onUpdateScreen = SettingsObject.onUpdateScreen;
+    _this.onEnter = SettingsObject.onEnter;
+    _this.onLoop = SettingsObject.onLoop;
+    _this.onLeave = SettingsObject.onLeave;
+    _this.onUpdateScreen = SettingsObject.onUpdateScreen;
     // Scene canvas and context
-    this.canvas = document.createElement('canvas');
-    this.canvas.id = ID;
-    this.graphics = this.canvas.getContext('2d');
+    _this.canvas = document.createElement('canvas');
+    _this.canvas.id = ID;
+    _this.graphics = _this.canvas.getContext('2d');
     // Scene canvas appearance
-    this.canvas.style.backgroundColor = this.backgroundColor;
-    this.canvas.style.left = this.x + 'px';
-    this.canvas.style.top = this.y + 'px';
-    //this.canvas.style.width = this.width + 'px';
-    //this.canvas.style.height = this.height + 'px';
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
+    _this.canvas.style.backgroundColor = _this.backgroundColor;
+    _this.canvas.style.left = _this.x + 'px';
+    _this.canvas.style.top = _this.y + 'px';
+    //_this.canvas.style.width = _this.width + 'px';
+    //_this.canvas.style.height = _this.height + 'px';
+    _this.canvas.width = _this.width;
+    _this.canvas.height = _this.height;
 
     // append canvas to body
-    document.querySelector('body').appendChild(this.canvas);
+    document.querySelector('body').appendChild(_this.canvas);
 
     // execute onEnter only once
-    this.initialized = false;
+    _this.initialized = false;
+
+    // scene mouse object
+    _this.mouse = new Vector(DEVICE_CENTER_X, DEVICE_CENTER_Y);
+    window.addEventListener('mousemove', function(e){
+        _this.mouse.update(e.clientX, e.clientY);
+    });
 
 }
 Scene.prototype.constructor = Scene;
