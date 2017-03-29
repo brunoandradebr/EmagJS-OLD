@@ -350,16 +350,19 @@ Vector.prototype.debug = function(graphics, options){
     var color = options && options.color ? options.color : 'black';
     var center = options && options.center ? options.center : new Vector(DEVICE_CENTER_X, DEVICE_CENTER_Y);
     var lineWidth = options && options.lineWidth ? options.lineWidth : 2;
+    var arrow = options.arrow != null ? options.arrow : true;
 
     // draw arrow
-    var edgeX = center.x + this.x;
-    var edgeY = center.y + this.y;
-    var bracketSize = this.length() < 20 ? this.clone().multiply(0.5) : this.clone().multiply(0.9);
-    var bracketAngle = this.length() < 20 ? 9 : bracketSize.length() * 0.10;
-    bracketSize = clamp(bracketSize, 5, 5);
-    bracketAngle = clamp(bracketAngle, 5, 999);
-    var leftNormal = this.leftNormal().normalize().multiply(bracketAngle).add(bracketSize);
-    var rightNormal = this.rightNormal().normalize().multiply(bracketAngle).add(bracketSize);
+    if(arrow){
+        var edgeX = center.x + this.x;
+        var edgeY = center.y + this.y;
+        var bracketSize = this.length() < 20 ? this.clone().multiply(0.5) : this.clone().multiply(0.9);
+        var bracketAngle = this.length() < 20 ? 9 : bracketSize.length() * 0.10;
+        bracketSize = clamp(bracketSize, 5, 5);
+        bracketAngle = clamp(bracketAngle, 5, 999);
+        var leftNormal = this.leftNormal().normalize().multiply(bracketAngle).add(bracketSize);
+        var rightNormal = this.rightNormal().normalize().multiply(bracketAngle).add(bracketSize);
+    }
 
     graphics.strokeStyle = color;
     graphics.lineWidth = lineWidth;
@@ -371,10 +374,12 @@ Vector.prototype.debug = function(graphics, options){
     graphics.lineTo(center.x + this.x, center.y + this.y);
 
     // draw arrow
-    graphics.moveTo(center.x + leftNormal.x, center.y + leftNormal.y);
-    graphics.lineTo(edgeX, edgeY);
-    graphics.moveTo(center.x + rightNormal.x, center.y + rightNormal.y);
-    graphics.lineTo(edgeX, edgeY);
+    if(arrow){
+        graphics.moveTo(center.x + leftNormal.x, center.y + leftNormal.y);
+        graphics.lineTo(edgeX, edgeY);
+        graphics.moveTo(center.x + rightNormal.x, center.y + rightNormal.y);
+        graphics.lineTo(edgeX, edgeY);
+    }
 
     graphics.closePath();
     graphics.stroke();
