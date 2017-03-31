@@ -129,6 +129,28 @@ function random(range, signed){
     }
 
 }
+/**
+* absRandom
+*
+* Generates a absRandom number in the range.
+* Signed is optional - between -range and range.
+*
+* @param  Number range
+* @param  Boolean signed - default false
+*
+* @return Number
+*/
+function absRandom(range, signed){
+
+    var signed = signed || false;
+
+    if(signed){
+        return (Math.random() * 2 - 1) * range|0;
+    }else{
+        return Math.random() * range|0;
+    }
+
+}
 
 function authorSignature(){
     trace('EmagJS                      ', 'white', '#f06', 20);
