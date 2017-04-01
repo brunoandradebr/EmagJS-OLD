@@ -350,7 +350,7 @@ Vector.prototype.debug = function(graphics, options){
     var color = options && options.color ? options.color : 'black';
     var center = options && options.center ? options.center : new Vector(DEVICE_CENTER_X, DEVICE_CENTER_Y);
     var lineWidth = options && options.lineWidth ? options.lineWidth : 2;
-    var arrow = options.arrow != null ? options.arrow : true;
+    var arrow = options && options.arrow != null ? options.arrow : true;
 
     // draw arrow
     if(arrow){

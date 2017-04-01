@@ -12,10 +12,18 @@ CollisionHandler.prototype.check = function(A, B){
     var typeA = A.constructor.name;
     var typeB = B.constructor.name;
 
+    if(typeA == 'Shape') typeA = A.source.constructor.name;
+    if(typeB == 'Shape') typeB = B.source.constructor.name;
+
     // line collision
     if(typeA == 'Line' && typeB == 'Line'){
         return this.lineToLineCollision(A, B);
     }
+
+    if(typeA == 'Circle' && typeB == 'Circle'){
+        return this.circleToCircleCollision(A, B);
+    }
+
 }
 
 CollisionHandler.prototype.lineToLineCollision = function(A, B){
@@ -40,4 +48,23 @@ CollisionHandler.prototype.lineToLineCollision = function(A, B){
     }
 
     return false;
+}
+
+CollisionHandler.prototype.circleToCircleCollision = function(A, B){
+
+    var distance = B.position.clone().subtract(A.position);
+    var radius = A.source.radius + B.source.radius;
+
+    if(distance.lengthSquared() < radius * radius){
+
+        var direction = distance.normalize();
+        
+        this.manifold.overlap = radius - distance.length();
+        this.manifold.normal = direction.reverse();
+        this.manifold.collisionPoint = B.position.clone().add(direction.clone().multiply(B.source.radius));
+        
+        return true;
+    }
+    return false;
+
 }
