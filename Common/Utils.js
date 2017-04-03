@@ -130,9 +130,9 @@ function random(range, signed){
 
 }
 /**
-* absRandom
+* intRandom
 *
-* Generates a absRandom number in the range.
+* Generates a intRandom number in the range.
 * Signed is optional - between -range and range.
 *
 * @param  Number range
@@ -140,7 +140,7 @@ function random(range, signed){
 *
 * @return Number
 */
-function absRandom(range, signed){
+function intRandom(range, signed){
 
     var signed = signed || false;
 
