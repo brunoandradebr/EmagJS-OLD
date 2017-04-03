@@ -20,8 +20,14 @@ CollisionHandler.prototype.check = function(A, B){
         return this.lineToLineCollision(A, B);
     }
 
+    // circle collision
     if(typeA == 'Circle' && typeB == 'Circle'){
         return this.circleToCircleCollision(A, B);
+    }
+
+    // sprite collision
+    if(typeA == 'Sprite' && typeB == 'Sprite'){
+        return this.spriteToSpriteCollision(A, B);
     }
 
 }
@@ -66,5 +72,48 @@ CollisionHandler.prototype.circleToCircleCollision = function(A, B){
         return true;
     }
     return false;
+
+}
+
+CollisionHandler.prototype.spriteToSpriteCollision = function(A, B){
+
+    var AHalfX = A.width * 0.5;
+    var AHalfY = A.height * 0.5;
+    var BHalfX = B.width * 0.5;
+    var BHalfY = B.height * 0.5;
+    
+    var distanceX = B.position.x - A.position.x;
+    var distanceY = B.position.y - A.position.y;
+
+    var colliding = false;
+
+    if(A.position.x + AHalfX > B.position.x - BHalfX && A.position.x - AHalfX < B.position.x + BHalfX){
+        if(A.position.y + AHalfY > B.position.y - BHalfY && A.position.y - AHalfY < B.position.y + BHalfY){
+            colliding = true;
+        }
+    }
+
+    if(colliding){
+        var overlapX = (AHalfX + BHalfX) - Math.abs(distanceX);
+        var overlapY = (AHalfY + BHalfY) - Math.abs(distanceY);
+
+        if(overlapX < overlapY){
+            if(A.position.x < B.position.x){
+                this.manifold.normal = new Vector(-1, 0);
+            }else{
+                this.manifold.normal = new Vector(1, 0);
+            }
+            this.manifold.overlap = overlapX;
+        }else{
+            if(A.position.y < B.position.y){
+                this.manifold.normal = new Vector(0, -1);
+            }else{
+                this.manifold.normal = new Vector(0, 1);
+            }
+            this.manifold.overlap = overlapY;
+        }
+    }
+
+    return colliding;
 
 }
