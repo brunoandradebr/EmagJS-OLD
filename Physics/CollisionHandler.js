@@ -1,9 +1,7 @@
 function CollisionHandler(){
-    this.manifold = {
-        collisionPoint : null,
-        overlap : null,
-        normal : null
-    };
+    this.collisionPoint = null;
+    this.overlap = null;
+    this.normal = null;
 }
 CollisionHandler.prototype.constructor = CollisionHandler;
 
@@ -30,6 +28,11 @@ CollisionHandler.prototype.check = function(A, B){
         return this.spriteToSpriteCollision(A, B);
     }
 
+    // point(vector) to sprite collision
+    if(typeA == 'Vector' && typeB == 'Sprite'){
+        return this.pointToSpriteCollision(A, B);
+    }
+
 }
 
 CollisionHandler.prototype.lineToLineCollision = function(A, B){
@@ -48,7 +51,7 @@ CollisionHandler.prototype.lineToLineCollision = function(A, B){
         var dot = collisionPoint.clone().subtract(B.start).dot(B.end);
 
         if(dot > 0 && dot < B.end.lengthSquared()){
-            this.manifold.collisionPoint = collisionPoint;
+            this.collisionPoint = collisionPoint;
             return true;
         }
     }
@@ -65,9 +68,9 @@ CollisionHandler.prototype.circleToCircleCollision = function(A, B){
 
         var direction = distance.normalize();
         
-        this.manifold.overlap = radius - distance.length();
-        this.manifold.normal = direction.reverse();
-        this.manifold.collisionPoint = B.position.clone().add(direction.clone().multiply(B.source.radius));
+        this.overlap = radius - distance.length();
+        this.normal = direction.reverse();
+        this.collisionPoint = B.position.clone().add(direction.clone().multiply(B.source.radius));
         
         return true;
     }
@@ -99,21 +102,59 @@ CollisionHandler.prototype.spriteToSpriteCollision = function(A, B){
 
         if(overlapX < overlapY){
             if(A.position.x < B.position.x){
-                this.manifold.normal = new Vector(-1, 0);
+                this.normal = new Vector(-1, 0);
             }else{
-                this.manifold.normal = new Vector(1, 0);
+                this.normal = new Vector(1, 0);
             }
-            this.manifold.overlap = overlapX;
+            this.overlap = overlapX;
         }else{
             if(A.position.y < B.position.y){
-                this.manifold.normal = new Vector(0, -1);
+                this.normal = new Vector(0, -1);
             }else{
-                this.manifold.normal = new Vector(0, 1);
+                this.normal = new Vector(0, 1);
             }
-            this.manifold.overlap = overlapY;
+            this.overlap = overlapY;
         }
     }
 
     return colliding;
+
+}
+
+CollisionHandler.prototype.pointToSpriteCollision = function(A, B){
+
+    var bTop = B.position.y - B.height * 0.5;
+    var bRight = B.position.x + B.width * 0.5;
+    var bLeft = B.position.x - B.width * 0.5;
+    var bBottom = B.position.y + B.height * 0.5;
+    var bHalfX = B.width * 0.5;
+    var bHalfY = B.height * 0.5;
+
+    if(A.x >= bLeft && A.x <= bRight){
+        var overlapX = (bHalfX) - Math.abs((B.position.x - A.x));
+        if(A.y >= bTop && A.y <= bBottom){
+            var overlapY = (bHalfY) - Math.abs((B.position.y - A.y));
+            if(overlapX < overlapY){
+                if(B.position.x > A.x){
+                    this.normal = new Vector(-1, 0);
+                }else{
+                    this.normal = new Vector(1, 0);
+                }
+                this.overlap = overlapX;
+                this.collisionPoint = new Vector(B.position.x + (this.normal.x * (bHalfX)), A.y);
+            }else{
+                if(B.position.y > A.y){
+                    this.normal = new Vector(0, -1);
+                }else{
+                    this.normal = new Vector(0, 1);
+                }
+                this.overlap = overlapY;
+                this.collisionPoint = new Vector(A.x, B.position.y + (this.normal.y * (bHalfY)));
+            }
+            return true;
+        }
+    }
+
+    return false;
 
 }
