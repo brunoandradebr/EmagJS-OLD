@@ -23,6 +23,11 @@ CollisionHandler.prototype.check = function(A, B){
         return this.circleToCircleCollision(A, B);
     }
 
+    // circle to sprite collision
+    if(typeA == 'Circle' && typeB == 'Sprite'){
+        return this.circleToSpriteCollision(A, B);
+    }
+
     // sprite collision
     if(typeA == 'Sprite' && typeB == 'Sprite'){
         return this.spriteToSpriteCollision(A, B);
@@ -75,6 +80,12 @@ CollisionHandler.prototype.circleToCircleCollision = function(A, B){
         return true;
     }
     return false;
+
+}
+
+CollisionHandler.prototype.circleToSpriteCollision = function(A, B){
+
+    
 
 }
 
