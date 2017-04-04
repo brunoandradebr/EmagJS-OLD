@@ -85,7 +85,66 @@ CollisionHandler.prototype.circleToCircleCollision = function(A, B){
 
 CollisionHandler.prototype.circleToSpriteCollision = function(A, B){
 
-    
+    var distance = B.position.clone().subtract(A.position);
+
+    var dx = Math.abs(distance.x) - B.width * 0.5;
+    var dy = Math.abs(distance.y) - B.height * 0.5;
+
+    if(dx > A.source.radius) return false;
+    if(dy > A.source.radius) return false;
+
+    // sides collision
+    if(dx < 0 || dy < 0){
+
+        if(A.position.y < B.position.y + B.height * 0.5 && A.position.y > B.position.y - B.height * 0.5){
+            if(A.position.x < B.position.x){
+                this.normal = new Vector(-1, 0);
+            }else{
+                this.normal = new Vector(1, 0);
+            }
+            this.overlap = A.source.radius - dx;
+        }
+
+        if(A.position.x < B.position.x + B.width * 0.5 && A.position.x > B.position.x - B.width * 0.5){
+            if(A.position.y < B.position.y){
+                this.normal = new Vector(0, -1);
+            }else{
+                this.normal = new Vector(0, 1);
+            }
+            this.overlap = A.source.radius - dy;
+        }        
+
+        this.collisionPoint = A.position.clone().add(this.normal.clone().reverse().multiply(A.source.radius - this.overlap));
+        
+        return true;
+    }
+
+    // corners collision
+    if(dx * dx + dy * dy < A.source.radius * A.source.radius){
+        // top left
+        if(distance.x > 0 && distance.y > 0){
+            var point = new Vector(B.position.x - B.width * 0.5, B.position.y - B.height * 0.5);
+        }
+        // top right
+        else if(distance.x < 0 && distance.y > 0){
+            var point = new Vector(B.position.x + B.width * 0.5, B.position.y - B.height * 0.5);
+        }
+        // bottom left
+        else if(distance.x > 0 && distance.y < 0){
+            var point = new Vector(B.position.x - B.width * 0.5, B.position.y + B.height * 0.5);
+        }
+        // bottom right
+        else if(distance.x < 0 && distance.y < 0){
+            var point = new Vector(B.position.x + B.width * 0.5, B.position.y + B.height * 0.5);
+        }
+        
+        var distanceToPoint = point.clone().subtract(A.position);
+        this.overlap = A.source.radius - distanceToPoint.length();
+        this.normal = distanceToPoint.normalize().reverse();
+        this.collisionPoint = point;
+
+        return true;
+    }
 
 }
 
