@@ -351,19 +351,7 @@ Vector.prototype.debug = function(graphics, options){
     var center = options && options.center ? options.center : new Vector(DEVICE_CENTER_X, DEVICE_CENTER_Y);
     var lineWidth = options && options.lineWidth ? options.lineWidth : 2;
     var arrow = options && options.arrow != null ? options.arrow : true;
-
-    // draw arrow
-    if(arrow){
-        var edgeX = center.x + this.x;
-        var edgeY = center.y + this.y;
-        var bracketSize = this.length() < 20 ? this.clone().multiply(0.5) : this.clone().multiply(0.9);
-        var bracketAngle = this.length() < 20 ? 9 : bracketSize.length() * 0.10;
-        bracketSize = clamp(bracketSize, 5, 5);
-        bracketAngle = clamp(bracketAngle, 5, 999);
-        var leftNormal = this.leftNormal().normalize().multiply(bracketAngle).add(bracketSize);
-        var rightNormal = this.rightNormal().normalize().multiply(bracketAngle).add(bracketSize);
-    }
-
+    
     graphics.strokeStyle = color;
     graphics.lineWidth = lineWidth;
     graphics.lineJoin = 'round';
@@ -375,10 +363,14 @@ Vector.prototype.debug = function(graphics, options){
 
     // draw arrow
     if(arrow){
-        graphics.moveTo(center.x + leftNormal.x, center.y + leftNormal.y);
-        graphics.lineTo(edgeX, edgeY);
-        graphics.moveTo(center.x + rightNormal.x, center.y + rightNormal.y);
-        graphics.lineTo(edgeX, edgeY);
+        var edgeX = center.x + this.x;
+        var edgeY = center.y + this.y;
+        var left = this.leftNormal().normalize().multiply(10).rotate(this.leftNormal().angle(true) + 45);
+        var right = this.rightNormal().normalize().multiply(10).rotate(this.rightNormal().angle(true) - 45);
+        graphics.moveTo(edgeX, edgeY);
+        graphics.lineTo(edgeX + left.x, edgeY + left.y);
+        graphics.moveTo(edgeX, edgeY);
+        graphics.lineTo(edgeX + right.x, edgeY + right.y);
     }
 
     graphics.closePath();
