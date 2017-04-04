@@ -1,8 +1,8 @@
-function Shape(Polygon, fillColor, lineColor, lineWidth){
+function Shape(Polygon, position, fillColor, lineColor, lineWidth){
 
     this.source = Polygon;
 
-    this.position = new Vector(0, 0);
+    this.position = position || new Vector(0, 0);
 
     this.fillColor = fillColor || '#f06';
     this.lineColor = lineColor || '#000';
@@ -20,7 +20,8 @@ function Shape(Polygon, fillColor, lineColor, lineWidth){
     this.width = boundingBox.size.width;
     this.height = boundingBox.size.height;
 
-    this.position.update(this.width * 0.5, this.height * 0.5);
+    if(this.position.x == 0 && this.position.y == 0)
+        this.position.update(this.width * 0.5, this.height * 0.5);
 
 }
 Shape.prototype.constructor = Shape;

@@ -38,6 +38,11 @@ CollisionHandler.prototype.check = function(A, B){
         return this.pointToSpriteCollision(A, B);
     }
 
+    // point(vector) to circle collision
+    if(typeA == 'Vector' && typeB == 'Circle'){
+        return this.pointToCircleCollision(A, B);
+    }
+
 }
 
 CollisionHandler.prototype.lineToLineCollision = function(A, B){
@@ -71,7 +76,7 @@ CollisionHandler.prototype.circleToCircleCollision = function(A, B){
 
     if(distance.lengthSquared() < radius * radius){
 
-        var direction = distance.normalize();
+        var direction = distance.clone().normalize();
         
         this.overlap = radius - distance.length();
         this.normal = direction.reverse();
@@ -226,5 +231,11 @@ CollisionHandler.prototype.pointToSpriteCollision = function(A, B){
     }
 
     return false;
+
+}
+
+CollisionHandler.prototype.pointToCircleCollision = function(A, B){
+
+    return this.circleToCircleCollision(new Shape(new Circle(1), A), B);
 
 }
