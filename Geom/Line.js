@@ -12,7 +12,7 @@ Line.fromAngle = function(start, angle, length, strokeWidth, strokeColor){
 
 Line.prototype.draw = function(graphics){
 
-    if(!this.start && !this.end) return false;
+    if(!this.start || !this.end) return false;
 
     graphics.strokeStyle = this.strokeColor;
     graphics.lineWidth = this.strokeWidth;
