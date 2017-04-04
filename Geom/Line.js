@@ -1,6 +1,6 @@
 function Line(start, end, strokeWidth, strokeColor){
     this.start = start;
-    this.end = end;
+    this.end = end || new Vector(0, 0);
     this.strokeColor = strokeColor || '#000';
     this.strokeWidth = strokeWidth || 1;
 }
