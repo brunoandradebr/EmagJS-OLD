@@ -50,7 +50,7 @@ window.addEventListener('resize', function(){
 // prevent ios scroll and zoom
 window.addEventListener('touchmove', function(e){
     e.preventDefault();
-});
+}, {passive : false});
 
 
 
