@@ -1,10 +1,9 @@
-function Text(text, x, y, color, font, size, stroke, strokeColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY){
+function Text(text, x, y, color, font, size, lineWidth, lineColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY){
     
     this.color = color || 'black';
     this.font = font || 'commodore';
-    this.stroke = stroke || false;
-    this.strokeWidth = this.strokeWidth || 1;
-    this.strokeColor = this.strokeColor || 'black';
+    this.lineWidth = lineWidth || 1;
+    this.lineColor = lineColor || 'black';
     this.alpha = 1;
 
     var _size = size || 24;
@@ -78,9 +77,9 @@ Text.prototype.draw = function(graphics){
     if(this.alpha >= 0)
         graphics.globalAlpha = this.alpha;
     
-    if(this.stroke){
-        graphics.lineWidth = this.strokeWidth;
-        graphics.strokeStyle = this.strokeColor;
+    if(this.lineWidth){
+        graphics.lineWidth = this.lineWidth;
+        graphics.strokeStyle = this.lineColor;
         graphics.strokeText(this.text, this.x + this.width * 0.5, this.y + this.size * 0.5);
     }
     graphics.fillStyle = this.color;

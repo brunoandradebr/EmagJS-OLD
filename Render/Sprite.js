@@ -1,4 +1,4 @@
-function Sprite(spriteSheet, position, width, height, fillColor, frameWidth, frameHeight){
+function Sprite(spriteSheet, position, width, height, fillColor, lineWidth, lineColor, frameWidth, frameHeight){
 
     // sprite sheet
     this.spriteSheet = spriteSheet || null;
@@ -18,12 +18,19 @@ function Sprite(spriteSheet, position, width, height, fillColor, frameWidth, fra
     // appearance
     this.compositeOperation = 'source-over';
     this.fillColor = fillColor || null;
+    this.lineWidth = lineWidth || 0;
+    this.lineColor = lineColor || 'black';
     this.shadowBlur = null;
     this.shadowColor = 'black';
     this.shadowOffsetX = 0;
     this.shadowOffsetY = 3;
     this.smoothPixel = false;
     this.alpha = 1;
+
+    // define default fillColor
+    if(this.spriteSheet == null && this.fillColor == null && this.lineWidth <= 0){
+        this.fillColor = '#f06';
+    }
 
     // animation
     this.animations = [];
@@ -157,6 +164,13 @@ Sprite.prototype.draw = function(graphics, dt){
             graphics.drawImage(this.spriteSheet.image, 0, 0, this.spriteSheet.image.width, this.spriteSheet.image.height, -this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
 
         }
+    }
+
+    // stroke
+    if(this.lineWidth > 0){
+        graphics.strokeStyle = this.lineColor;
+        graphics.lineWidth = this.lineWidth;
+        graphics.strokeRect(-this.width * 0.5 * this.anchor.x + this.lineWidth * 0.5, -this.height * 0.5 * this.anchor.y + this.lineWidth * 0.5, this.width, this.height);
     }
 
     graphics.restore();
