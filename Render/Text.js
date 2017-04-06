@@ -2,7 +2,7 @@ function Text(text, x, y, color, font, size, lineWidth, lineColor, shadowBlur, s
     
     this.color = color || 'black';
     this.font = font || 'commodore';
-    this.lineWidth = lineWidth || 1;
+    this.lineWidth = lineWidth || 0;
     this.lineColor = lineColor || 'black';
     this.alpha = 1;
 
