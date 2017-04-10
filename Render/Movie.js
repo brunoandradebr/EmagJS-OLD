@@ -67,7 +67,7 @@ Movie.prototype.playScene = function(ArSceneID){
         var Scene = _this.scenes[ArSceneID[i]];
 
         if(Scene.onEnter && !Scene.initialized){
-                        
+            
             window.addEventListener('resize', function(){
 
                 if(Scene.autoResize){
@@ -75,6 +75,10 @@ Movie.prototype.playScene = function(ArSceneID){
                     Scene.height = DEVICE_HEIGHT;
                     Scene.canvas.width = Scene.width;
                     Scene.canvas.height = Scene.height;
+                }else{
+                    if(Scene.center){
+                        Scene.center();
+                    }
                 }
 
                 if(Scene.onUpdateScreen){
