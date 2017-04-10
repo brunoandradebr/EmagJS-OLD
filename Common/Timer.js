@@ -49,7 +49,7 @@ Timer.prototype.resume = function(){
 }
 
 Timer.prototype.update = function(){
-
+    trace(window.performance.now())
     if(!this.paused){
 
         this.dt = window.performance.now() - this.startTime;
