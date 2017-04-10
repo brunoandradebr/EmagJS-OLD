@@ -39,6 +39,13 @@ function Scene(ID, SettingsObject){
     _this.canvas.style.backgroundColor = _this.backgroundColor;
     _this.canvas.style.left = _this.x + 'px';
     _this.canvas.style.top = _this.y + 'px';
+    
+    // center scene
+    if(SettingsObject.center){
+        _this.canvas.style.top = DEVICE_CENTER_Y - _this.height * 0.5 + 'px';
+        _this.canvas.style.left = DEVICE_CENTER_X - _this.width * 0.5 + 'px';
+    }
+    
     //_this.canvas.style.width = _this.width + 'px';
     //_this.canvas.style.height = _this.height + 'px';
     _this.canvas.width = _this.width;
