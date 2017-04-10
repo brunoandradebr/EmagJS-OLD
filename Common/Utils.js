@@ -30,6 +30,8 @@ var DEVICE_WIDTH = window.innerWidth;
 var DEVICE_HEIGHT = window.innerHeight;
 var DEVICE_CENTER_X = DEVICE_WIDTH * 0.5;
 var DEVICE_CENTER_Y = DEVICE_HEIGHT * 0.5;
+var DEVICE_ASPECT_RATIO = DEVICE_WIDTH / DEVICE_HEIGHT;
+var DEVICE_ORIENTATION = (DEVICE_WIDTH > DEVICE_HEIGHT) ? 'landscape' : 'portrait';
 
 
 
@@ -45,6 +47,8 @@ window.addEventListener('resize', function(){
     DEVICE_HEIGHT = window.innerHeight;
     DEVICE_CENTER_X = DEVICE_WIDTH * 0.5;
     DEVICE_CENTER_Y = DEVICE_HEIGHT * 0.5;
+    DEVICE_ASPECT_RATIO = DEVICE_WIDTH / DEVICE_HEIGHT;
+    DEVICE_ORIENTATION = (DEVICE_WIDTH > DEVICE_HEIGHT) ? 'landscape' : 'portrait'
     window.scrollTo(0, 0);
 });
 // prevent ios scroll and zoom
