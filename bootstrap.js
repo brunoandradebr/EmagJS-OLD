@@ -652,7 +652,7 @@ libRequest.onload = function(){
 	// add signature
 	authorSignature();
 	
-	document.querySelector('body').style.background = 'url('+ libRoot + 'Resource/Image/background.png' +')';
+	document.querySelector('body').style.backgroundImage = 'url('+ libRoot + 'Resource/Image/background.png' +')';
 
 	new FileRequest([
 		PROJECT_URL + initScript

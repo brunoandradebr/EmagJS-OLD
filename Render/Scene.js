@@ -41,7 +41,7 @@ function Scene(ID, SettingsObject){
     _this.canvas.style.top = _this.y + 'px';
     
     // center scene
-    if(SettingsObject.center){
+    if(SettingsObject.autoCenter){
         _this.center();
     }
 
