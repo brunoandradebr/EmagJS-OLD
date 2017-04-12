@@ -40,7 +40,7 @@ function Sprite(spriteSheet, position, width, height, fillColor, lineWidth, line
 Sprite.prototype.constructor = Sprite;
 
 
-Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps){
+Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps, loop){
 
     this.animations[IDAnimation] = {
         id : IDAnimation,
@@ -49,6 +49,8 @@ Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps){
         started : false,
         paused : false,
         stoped : false,
+        completed : false,
+        loop : loop || false,
         frameIndex : 0,
         currentFrame : 0,
         fps : 1000 / fps || 30,
@@ -91,7 +93,12 @@ Sprite.prototype._playAnimation = function(dt){
     }
 
     if(this.currentAnimation.frameIndex >= this.currentAnimation.keys.length){
-        this.currentAnimation.frameIndex = 0;
+        if(this.currentAnimation.loop){
+            this.currentAnimation.frameIndex = 0;
+        }else{
+            this.currentAnimation.frameIndex = this.currentAnimation.frames.length - 1;
+            this.currentAnimation.completed = true;
+        }
     }
 
     this.currentAnimation.currentFrame = this.currentAnimation.keys[this.currentAnimation.frameIndex];
@@ -156,7 +163,8 @@ Sprite.prototype.draw = function(graphics, dt){
             this._playAnimation(dt);
 
             // draw current frame
-            graphics.drawImage(this.spriteSheet.image, this.currentAnimation.frames[this.currentAnimation.currentFrame].x, this.currentAnimation.frames[this.currentAnimation.currentFrame].y, this.frameWidth, this.frameHeight, -this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
+            if(this.currentAnimation.frames[this.currentAnimation.currentFrame])
+                graphics.drawImage(this.spriteSheet.image, this.currentAnimation.frames[this.currentAnimation.currentFrame].x, this.currentAnimation.frames[this.currentAnimation.currentFrame].y, this.frameWidth, this.frameHeight, -this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
 
         }else{
 
