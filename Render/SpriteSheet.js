@@ -96,9 +96,9 @@ SpriteSheet.prototype.tint = function(r, g, b, a){
         var _b = this.imageSource.data[i + 2];
         var _a = this.imageSource.data[i + 3];
 
-        this.imageSource.data[i + 0] = r > 0 ? _r + r * a : _r;
-        this.imageSource.data[i + 1] = g > 0 ? _g + g * a : _g;
-        this.imageSource.data[i + 2] = b > 0 ? _b + b * a : _b;
+        this.imageSource.data[i + 0] = r ? _r + r * a : _r;
+        this.imageSource.data[i + 1] = g ? _g + g * a : _g;
+        this.imageSource.data[i + 2] = b ? _b + b * a : _b;
 
     }
 
