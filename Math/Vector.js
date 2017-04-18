@@ -345,6 +345,13 @@ Vector.prototype.update = function(x, y, z){
 
 }
 
+Vector.prototype.eq = function(V){
+    var x = Math.abs(this.x - V.x);
+    var y = Math.abs(this.y - V.y);
+    var z = Math.abs(this.z - V.z);
+    return (x <= 0.5 && y <= 0.5 && z <= 0.5);
+}
+
 Vector.prototype.debug = function(graphics, options){
 
     var color = options && options.color ? options.color : 'black';
