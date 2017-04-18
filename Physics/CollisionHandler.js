@@ -60,7 +60,7 @@ CollisionHandler.prototype.lineToLineCollision = function(A, B){
 
         var dot = collisionPoint.clone().subtract(B.start).dot(B.end);
 
-        if(dot > 0 && dot < B.end.lengthSquared()){
+        if(dot > 0.1 && dot < B.end.lengthSquared() - 0.1){
             this.collisionPoint = collisionPoint;
             return true;
         }
