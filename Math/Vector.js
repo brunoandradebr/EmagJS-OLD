@@ -32,6 +32,8 @@ Vector.angle = function(A, B, inDegree){
 
     var dot = A.clone().normalize().dot(B.clone().normalize());
 
+    if(A.eq(B)) return 0;
+
     return inDegree ? Math.round(Math.acos(dot) * TO_DEGREE) : dot;
 }
 
