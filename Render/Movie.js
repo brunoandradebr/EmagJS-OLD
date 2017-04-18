@@ -70,7 +70,7 @@ Movie.prototype.playScene = function(ArSceneID){
 
             window.addEventListener('resize', function(e){
 
-                if(Scene.autoResize){
+                if(Scene.fullScreen){
                     Scene.width = DEVICE_WIDTH;
                     Scene.height = DEVICE_HEIGHT;
                     Scene.canvas.width = Scene.width;

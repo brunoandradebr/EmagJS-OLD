@@ -25,7 +25,7 @@ function Scene(ID, SettingsObject){
     _this.width = SettingsObject.width != null ? SettingsObject.width : DEVICE_WIDTH;
     _this.height = SettingsObject.height != null ? SettingsObject.height : DEVICE_HEIGHT;
     _this.backgroundColor = SettingsObject.backgroundColor || 'transparent';
-    _this.autoResize = SettingsObject.autoResize || false;
+    _this.fullScreen = SettingsObject.fullScreen || false;
     // Scene states
     _this.onEnter = SettingsObject.onEnter;
     _this.onLoop = SettingsObject.onLoop;
