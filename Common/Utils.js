@@ -32,7 +32,7 @@ var DEVICE_CENTER_X = DEVICE_WIDTH * 0.5;
 var DEVICE_CENTER_Y = DEVICE_HEIGHT * 0.5;
 var DEVICE_ASPECT_RATIO = DEVICE_WIDTH / DEVICE_HEIGHT;
 var DEVICE_ORIENTATION = (DEVICE_WIDTH > DEVICE_HEIGHT) ? 'landscape' : 'portrait';
-var MOBILE = navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/Windows Phone/i);
+var MOBILE = navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/Windows Phone/i);
 
 
 
