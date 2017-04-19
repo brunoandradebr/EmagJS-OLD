@@ -61,10 +61,10 @@ function Scene(ID, SettingsObject){
     window.addEventListener('mousemove', function(e){
         _this.mouse.update(e.clientX, e.clientY);
     });
-    window.addEventListener('touchstart', function(e){
+    _this.canvas.addEventListener('touchstart', function(e){
         _this.mouse.update(e.touches[0].clientX, e.touches[0].clientY);
     });
-    window.addEventListener('touchmove', function(e){
+    _this.canvas.addEventListener('touchmove', function(e){
         _this.mouse.update(e.touches[0].clientX, e.touches[0].clientY);
     });
 
