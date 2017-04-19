@@ -5,7 +5,7 @@ function CollisionHandler(){
 }
 CollisionHandler.prototype.constructor = CollisionHandler;
 
-CollisionHandler.prototype.check = function(A, B){
+CollisionHandler.prototype.check = function(A, B, offset){
 
     var typeA = A.constructor.name;
     var typeB = B.constructor.name;
@@ -40,7 +40,7 @@ CollisionHandler.prototype.check = function(A, B){
 
     // point(vector) to circle collision
     if(typeA == 'Vector' && typeB == 'Circle'){
-        return this.pointToCircleCollision(A, B);
+        return this.pointToCircleCollision(A, B, offset);
     }
 
 }
@@ -234,8 +234,10 @@ CollisionHandler.prototype.pointToSpriteCollision = function(A, B){
 
 }
 
-CollisionHandler.prototype.pointToCircleCollision = function(A, B){
+CollisionHandler.prototype.pointToCircleCollision = function(A, B, offset){
 
-    return this.circleToCircleCollision(new Shape(new Circle(1), A), B);
+    var offset = offset || 1;
+
+    return this.circleToCircleCollision(new Shape(new Circle(1 * offset), A), B);
 
 }
