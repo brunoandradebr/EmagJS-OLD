@@ -35,7 +35,7 @@ Vector.angle = function(A, B, inDegree){
     if(A.eq(B)) return 0;
 
     return inDegree ? Math.round(Math.acos(dot) * TO_DEGREE) : dot;
-}
+} 
 
 Vector.angleBetween = function(A, B, inDegree){
 
