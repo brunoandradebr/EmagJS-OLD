@@ -1,6 +1,8 @@
-function Particle(){
+function Particle(position, shape){
 
-    this.position = new Vector(0, 0);
+    trace(position)
+
+    this.position = position || new Vector(0, 0);
     this.velocity = new Vector(0, 0);
     this.acceleration = new Vector(0, 0);
 
@@ -18,9 +20,10 @@ function Particle(){
 
     this.forceAccumulator = new Vector(0, 0);
 
-    this.shape = new Shape(new Square);
+    this.shape = shape || new Shape(new Square);
 
-    this.position.update(this.shape.width * 0.5, this.shape.height * 0.5);
+    if(!position)
+        this.position.update(this.shape.width * 0.5, this.shape.height * 0.5);
 
 }
 Particle.prototype.constructor = Particle;
