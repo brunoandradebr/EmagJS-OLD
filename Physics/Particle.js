@@ -37,14 +37,18 @@ Particle.prototype.calculateInverseMass = function(mass){
     return this.iMass;
 }
 
-Particle.prototype.applyForce = function(F){
+Particle.prototype.applyForce = function(x, y, z){
 
-    this.forceAccumulator.add(F/*.clone().multiply(1000)*/);
+    if(arguments.length == 1){
+        this.forceAccumulator.add(x/*.clone().multiply(1000)*/);
+    }else{
+        this.forceAccumulator.add(x, y, z);
+    }
 
 }
 
 Particle.prototype.update = function(dt){
-    
+
     var force = this.forceAccumulator.multiply(this.iMass);
     var acceleration = this.acceleration.add(force);
     var velocity = this.velocity;
