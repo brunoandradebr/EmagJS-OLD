@@ -1,7 +1,5 @@
 function Particle(position, shape){
 
-    trace(position)
-
     this.position = position || new Vector(0, 0);
     this.velocity = new Vector(0, 0);
     this.acceleration = new Vector(0, 0);
