@@ -1,4 +1,4 @@
-function Particle(position, shape){
+function Body(position, shape){
 
     this.position = position || new Vector(0, 0);
     this.velocity = new Vector(0, 0);
@@ -24,9 +24,9 @@ function Particle(position, shape){
         this.position.update(this.shape.width * 0.5, this.shape.height * 0.5);
 
 }
-Particle.prototype.constructor = Particle;
+Body.prototype.constructor = Body;
 
-Particle.prototype.calculateInverseMass = function(mass){
+Body.prototype.calculateInverseMass = function(mass){
 
     if(mass > 0){
         this.iMass = 1 / mass;
@@ -37,7 +37,7 @@ Particle.prototype.calculateInverseMass = function(mass){
     return this.iMass;
 }
 
-Particle.prototype.applyForce = function(x, y, z){
+Body.prototype.applyForce = function(x, y, z){
 
     if(arguments.length == 1){
         this.forceAccumulator.add(x/*.clone().multiply(1000)*/);
@@ -47,7 +47,7 @@ Particle.prototype.applyForce = function(x, y, z){
 
 }
 
-Particle.prototype.update = function(dt){
+Body.prototype.update = function(dt){
 
     var force = this.forceAccumulator.multiply(this.iMass);
     var acceleration = this.acceleration.add(force);
@@ -63,7 +63,7 @@ Particle.prototype.update = function(dt){
 
 }
 
-Particle.prototype.render = function(graphics){
+Body.prototype.render = function(graphics){
 
     this.shape.position.update(this.position);
 
