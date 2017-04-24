@@ -629,7 +629,7 @@ var libRequest = new FileRequest([
 	libRoot + 'Geom/Circle.js',
 	libRoot + 'Geom/Line.js',
 	libRoot + 'Physics/CollisionHandler.js',
-	libRoot + 'Physics/Particle.js',
+	libRoot + 'Physics/Body.js',
 	libRoot + 'Render/Text.js',
 	libRoot + 'Render/Shape.js',
 	libRoot + 'Render/Scene.js',
