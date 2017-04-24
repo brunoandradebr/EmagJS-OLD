@@ -3,11 +3,22 @@ function Line(start, end, strokeWidth, strokeColor){
     this.end = end || new Vector(0, 0);
     this.strokeColor = strokeColor || '#000';
     this.strokeWidth = strokeWidth || 1;
+    
+    Object.defineProperty(this, 'length', {
+        get : function(){
+            return this.end.length();
+        }
+    });
+
 }
 Line.prototype.constructor = Line;
 
 Line.fromAngle = function(start, angle, length, strokeWidth, strokeColor){
     return new Line(start, Vector.fromAngle(angle, length), strokeWidth, strokeColor);
+}
+
+Line.prototype.angle = function(inDegree){
+    return this.end.angle(inDegree);
 }
 
 Line.prototype.draw = function(graphics){
