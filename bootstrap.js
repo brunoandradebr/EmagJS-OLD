@@ -634,6 +634,7 @@ var libRequest = new FileRequest([
 	libRoot + 'Render/Shape.js',
 	libRoot + 'Render/Scene.js',
 	libRoot + 'Render/Movie.js',
+	libRoot + 'Render/Pattern.js',
 	libRoot + 'Render/SpriteSheet.js',
 	libRoot + 'Render/Sprite.js',
 	libRoot + 'Resource/Font/pressStart.ttf',

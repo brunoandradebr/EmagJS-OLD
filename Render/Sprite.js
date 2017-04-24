@@ -1,7 +1,13 @@
-function Sprite(spriteSheet, position, width, height, fillColor, lineWidth, lineColor, frameWidth, frameHeight){
+function Sprite(imageSource, position, width, height, fillColor, lineWidth, lineColor, frameWidth, frameHeight){
 
-    // sprite sheet
-    this.spriteSheet = spriteSheet || null;
+    // sprite sheet or pattern
+    if(imageSource){
+        if(imageSource.constructor.name == 'SpriteSheet'){
+            this.spriteSheet = imageSource || null;
+        }else if(imageSource.constructor.name == 'Pattern'){
+            this.pattern = imageSource;
+        }
+    }
 
     // dimensions
     this.width = (width != null) ? width : this.spriteSheet ? this.spriteSheet.image.width : 50;
@@ -137,6 +143,11 @@ Sprite.prototype.draw = function(graphics, dt){
         graphics.fillRect(-this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
     }
 
+    // pattern
+    if(this.pattern){
+        graphics.fillStyle = this.pattern.fill;
+        graphics.fillRect(-this.width * 0.5 * this.anchor.x, -this.height * 0.5 * this.anchor.y, this.width, this.height);
+    }
 
     // image
     if(this.spriteSheet){
