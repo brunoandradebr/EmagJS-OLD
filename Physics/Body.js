@@ -1,6 +1,6 @@
-function Body(position, shape){
+function Body(sprite){
 
-    this.position = position || new Vector(0, 0);
+    this.position = sprite.position || new Vector(0, 0);
     this.velocity = new Vector(0, 0);
     this.acceleration = new Vector(0, 0);
 
@@ -18,10 +18,10 @@ function Body(position, shape){
 
     this.forceAccumulator = new Vector(0, 0);
 
-    this.shape = shape || new Shape(new Square);
+    this.sprite = sprite;
 
-    if(!position)
-        this.position.update(this.shape.width * 0.5, this.shape.height * 0.5);
+    if(!sprite.position)
+        this.position.update(this.sprite.width * 0.5, this.sprite.height * 0.5);
 
 }
 Body.prototype.constructor = Body;
@@ -60,13 +60,5 @@ Body.prototype.update = function(dt){
     this.forceAccumulator.update(0, 0);
 
     this.velocity.multiply(this.damping);
-
-}
-
-Body.prototype.render = function(graphics){
-
-    this.shape.position.update(this.position);
-
-    this.shape.draw(graphics);
 
 }
