@@ -10,7 +10,6 @@ function Triangle(side){
     new Vector(this.side  * 0.5, this.side  * 0.5),
     new Vector(-this.side * 0.5, this.side  * 0.5),
     new Vector(this.side * 0.025, -this.side  * 0.5),
-    new Vector(this.side * 0.5, this.side  * 0.5),
     ];
 
     this.originalPoints = this.points;
