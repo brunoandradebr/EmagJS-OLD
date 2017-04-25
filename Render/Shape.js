@@ -59,6 +59,17 @@ Shape.prototype.getBoundingBox = function(){
 
 }
 
+Shape.prototype.getSupportPoints = function(axis){
+
+    var supportPoints = this.source.getSupportPoints(axis);
+
+    supportPoints.minProjection = supportPoints.minProjection + this.position.dot(axis);
+    supportPoints.maxProjection = supportPoints.maxProjection + this.position.dot(axis);
+
+    return supportPoints;
+
+}
+
 Shape.prototype.draw = function(graphics){
 
     graphics.save();
