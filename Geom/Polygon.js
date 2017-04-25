@@ -84,7 +84,26 @@ Polygon.prototype.getSupportPoints = function(axis){
 
     return {
         minPoint : minPoint,
-        maxPoint : maxPoint
+        maxPoint : maxPoint,
+        minProjection : minProjection,
+        maxProjection : maxProjection
     }
+
+}
+
+Polygon.prototype.getPlanes = function(){
+
+    var planes = [];
+
+    var points = this.points;
+
+    for(var i = 0; i < points.length; i++){
+        var pointA = points[i];
+        var pointB = points[(i + 1) % points.length];
+        var plane = pointB.clone().subtract(pointA);
+        planes.push(plane);
+    }
+
+    return planes;
 
 }
