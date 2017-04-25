@@ -2,6 +2,7 @@ function CollisionHandler(){
     this.collisionPoint = null;
     this.overlap = null;
     this.normal = null;
+    this.resolution = null;
 }
 CollisionHandler.prototype.constructor = CollisionHandler;
 
@@ -143,6 +144,8 @@ CollisionHandler.prototype.SAT = function(A, B, offset){
     // return manifold
     this.overlap = minOverlap;
     this.normal = axis;
+    this.resolution = this.normal.multiply(this.overlap);
+    
     return true;
 }
 
