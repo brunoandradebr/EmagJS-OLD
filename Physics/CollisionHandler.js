@@ -10,6 +10,9 @@ CollisionHandler.prototype.check = function(A, B, offset){
     var typeA = A.constructor.name;
     var typeB = B.constructor.name;
 
+    // shape collision handler - SAT
+    if(typeA == 'Shape' && typeB == 'Shape') return this.SAT(A, B, offset);
+    
     if(typeA == 'Shape') typeA = A.source.constructor.name;
     if(typeB == 'Shape') typeB = B.source.constructor.name;
 
@@ -45,6 +48,104 @@ CollisionHandler.prototype.check = function(A, B, offset){
 
 }
 
+CollisionHandler.prototype.SAT = function(A, B, offset){
+
+    var minOverlap = Infinity;
+    var axis = null;
+
+    // check A planes
+    var APlanes = A.source.getPlanes();
+    for(var i in APlanes){
+
+        var plane = APlanes[i].normalize().leftNormal();
+        var ASupportPoints = A.getSupportPoints(plane);
+        var BSupportPoints = B.getSupportPoints(plane);
+
+        var aMinProjection = ASupportPoints.minProjection;
+        var aMaxProjection = ASupportPoints.maxProjection;
+        var bMinProjection = BSupportPoints.minProjection;
+        var bMaxProjection = BSupportPoints.maxProjection;
+
+        if(bMinProjection > aMaxProjection || bMaxProjection < aMinProjection){
+            return false;
+        }
+
+        if(aMinProjection < bMinProjection){
+            if(aMaxProjection < bMaxProjection){
+                var overlap = aMaxProjection - bMinProjection;
+            }else{
+                var option1 = aMaxProjection - bMinProjection;
+                var option2 = bMaxProjection - aMinProjection;
+                var overlap = option1 < option2 ? option1 : -option2;
+            }
+        }else{
+            if(aMaxProjection > bMaxProjection){
+                var overlap = aMinProjection - bMaxProjection;
+            }else{
+                var option1 = aMaxProjection - bMinProjection;
+                var option2 = bMaxProjection - aMinProjection;
+                var overlap = option1 < option2 ? option1 : -option2;
+            }
+        }
+
+        if(Math.abs(overlap) < minOverlap){
+            minOverlap = Math.abs(overlap);
+            axis = plane;
+            if(overlap > 0)
+                axis.reverse();
+        }
+    }
+
+    // check B planes
+    var BPlanes = B.source.getPlanes();
+    for(var i in BPlanes){
+
+        var plane = BPlanes[i].normalize().leftNormal();
+        var ASupportPoints = A.getSupportPoints(plane);
+        var BSupportPoints = B.getSupportPoints(plane);
+
+        var aMinProjection = ASupportPoints.minProjection;
+        var aMaxProjection = ASupportPoints.maxProjection;
+        var bMinProjection = BSupportPoints.minProjection;
+        var bMaxProjection = BSupportPoints.maxProjection;
+
+        if(bMinProjection > aMaxProjection || bMaxProjection < aMinProjection){
+            return false;
+        }
+
+        if(aMinProjection < bMinProjection){
+
+            if(aMaxProjection < bMaxProjection){
+                var overlap = aMaxProjection - bMinProjection;
+            }else{
+                var option1 = aMaxProjection - bMinProjection;
+                var option2 = bMaxProjection - aMinProjection;
+                var overlap = option1 < option2 ? option1 : -option2;
+            }
+        }else{
+            if(aMaxProjection > bMaxProjection){
+                var overlap = aMinProjection - bMaxProjection;
+            }else{
+                var option1 = aMaxProjection - bMinProjection;
+                var option2 = bMaxProjection - aMinProjection;
+                var overlap = option1 < option2 ? option1 : -option2;
+            }
+        }
+
+        if(Math.abs(overlap) < minOverlap){
+            minOverlap = Math.abs(overlap);
+            axis = plane;
+            if(overlap > 0)
+                axis.reverse();
+        }
+    }
+
+    // return manifold
+    this.overlap = minOverlap;
+    this.normal = axis;
+    return true;
+}
+
 CollisionHandler.prototype.lineToLineCollision = function(A, B){
 
     var aux = B.start.clone().subtract(A.start);
@@ -77,11 +178,11 @@ CollisionHandler.prototype.circleToCircleCollision = function(A, B){
     if(distance.lengthSquared() < radius * radius){
 
         var direction = distance.clone().normalize();
-        
+
         this.overlap = radius - distance.length();
         this.normal = direction.reverse();
         this.collisionPoint = B.position.clone().add(direction.clone().multiply(B.source.radius));
-        
+
         return true;
     }
     return false;
