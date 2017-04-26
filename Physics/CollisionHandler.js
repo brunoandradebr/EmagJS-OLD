@@ -12,7 +12,7 @@ CollisionHandler.prototype.check = function(A, B, offset){
     var typeB = B.constructor.name;
 
     // shape collision handler - SAT
-    if(typeA == 'Shape' && typeB == 'Shape') return this.SAT(A, B, offset);
+    if((typeA == 'Shape' && typeB == 'Shape') && A.source.constructor.name != 'Circle' && B.source.constructor.name != 'Circle') return this.SAT(A, B, offset);
     
     if(typeA == 'Shape') typeA = A.source.constructor.name;
     if(typeB == 'Shape') typeB = B.source.constructor.name;
