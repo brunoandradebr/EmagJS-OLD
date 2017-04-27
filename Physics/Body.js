@@ -4,16 +4,23 @@ function Body(sprite){
     this.velocity = new Vector(0, 0);
     this.acceleration = new Vector(0, 0);
 
+    var mass = 1;
+
     // ever when setting mass, calculate inverse mass
     Object.defineProperty(this, 'mass', {
 
+        get : function(){
+            return mass;
+        },
+
         set : function(mass){
             this.calculateInverseMass(mass);
+            mass = mass;
         }
 
     });
 
-    this.mass = 1;
+    this.mass = mass;
     this.damping = .99;
 
     this.forceAccumulator = new Vector(0, 0);
