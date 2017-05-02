@@ -338,34 +338,36 @@ CollisionHandler.prototype.circleToBoundaryCollision = function(A){
 
     var radius = A.source.radius;
 
+    this.normal = new Vector(0, 0, 0);
+
+    if(A.position.x + radius < DEVICE_WIDTH && A.position.x - radius > 0 && A.position.y + radius < DEVICE_HEIGHT && A.position.y - radius > 0) return false;
+
     if(A.position.x + radius > DEVICE_WIDTH){
-        this.normal = new Vector(-1, 0, 0);
+        this.normal.x = -1;
         this.overlap = (A.position.x + radius) - DEVICE_WIDTH;
         this.resolution = this.normal.clone().multiply(this.overlap);
         this.collisionPoint = new Vector(DEVICE_WIDTH, A.position.y);
-        return true;
     }
     if(A.position.x - radius < 0){
-        this.normal = new Vector(1, 0, 0);
+        this.normal.x = 1;
         this.overlap = -(A.position.x - radius);
         this.resolution = this.normal.clone().multiply(this.overlap);
         this.collisionPoint = new Vector(0, A.position.y);
-        return true;
     }
     if(A.position.y + radius > DEVICE_HEIGHT){
-        this.normal = new Vector(0, -1, 0);
+        this.normal.y = -1;
         this.overlap = (A.position.y + radius) - DEVICE_HEIGHT;
         this.resolution = this.normal.clone().multiply(this.overlap);
         this.collisionPoint = new Vector(A.position.x, DEVICE_HEIGHT);
-        return true;
     }
     if(A.position.y - radius < 0){
-        this.normal = new Vector(0, 1, 0);
+        this.normal.y = 1;
         this.overlap = -(A.position.y - radius);
         this.resolution = this.normal.clone().multiply(this.overlap);
         this.collisionPoint = new Vector(A.position.x, 0);
-        return true;
     }
+
+    return true;
 
 }
 
