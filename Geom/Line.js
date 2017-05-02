@@ -21,6 +21,10 @@ Line.prototype.angle = function(inDegree){
     return this.end.angle(inDegree);
 }
 
+Line.prototype.rotate = function(angle){
+    this.end.rotate(angle);
+}
+
 Line.prototype.draw = function(graphics){
 
     if(!this.start || !this.end) return false;
