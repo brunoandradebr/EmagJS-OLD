@@ -37,6 +37,11 @@ CollisionHandler.prototype.check = function(A, B, offset){
         return this.circleToLineCollision(A, B);
     }
 
+    // circle to boundary
+    if(typeA == 'Circle' && typeB == 'String' && B == 'boundary'){
+        return this.circleToBoundaryCollision(A);
+    }
+
     // sprite collision
     if(typeA == 'Sprite' && typeB == 'Sprite'){
         return this.spriteToSpriteCollision(A, B);
@@ -324,6 +329,41 @@ CollisionHandler.prototype.circleToSpriteCollision = function(A, B){
         this.normal = distanceToPoint.normalize().reverse();
         this.collisionPoint = point;
 
+        return true;
+    }
+
+}
+
+CollisionHandler.prototype.circleToBoundaryCollision = function(A){
+
+    var radius = A.source.radius;
+
+    if(A.position.x + radius > DEVICE_WIDTH){
+        this.normal = new Vector(-1, 0, 0);
+        this.overlap = (A.position.x + radius) - DEVICE_WIDTH;
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        this.collisionPoint = new Vector(DEVICE_WIDTH, A.position.y);
+        return true;
+    }
+    if(A.position.x - radius < 0){
+        this.normal = new Vector(1, 0, 0);
+        this.overlap = -(A.position.x - radius);
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        this.collisionPoint = new Vector(0, A.position.y);
+        return true;
+    }
+    if(A.position.y + radius > DEVICE_HEIGHT){
+        this.normal = new Vector(0, -1, 0);
+        this.overlap = (A.position.y + radius) - DEVICE_HEIGHT;
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        this.collisionPoint = new Vector(A.position.x, DEVICE_HEIGHT);
+        return true;
+    }
+    if(A.position.y - radius < 0){
+        this.normal = new Vector(0, 1, 0);
+        this.overlap = -(A.position.y - radius);
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        this.collisionPoint = new Vector(A.position.x, 0);
         return true;
     }
 
