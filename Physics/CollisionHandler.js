@@ -32,6 +32,11 @@ CollisionHandler.prototype.check = function(A, B, offset){
         return this.circleToSpriteCollision(A, B);
     }
 
+    // circle to line collision
+    if(typeA == 'Circle' && typeB == 'Line'){
+        return this.circleToLineCollision(A, B);
+    }
+
     // sprite collision
     if(typeA == 'Sprite' && typeB == 'Sprite'){
         return this.spriteToSpriteCollision(A, B);
@@ -183,12 +188,79 @@ CollisionHandler.prototype.circleToCircleCollision = function(A, B){
         var direction = distance.clone().normalize();
 
         this.overlap = radius - distance.length();
+        this.resolution = direction.clone().multiply(this.overlap);
         this.normal = direction.reverse();
         this.collisionPoint = B.position.clone().add(direction.clone().multiply(B.source.radius));
 
         return true;
     }
     return false;
+
+}
+
+CollisionHandler.prototype.circleToLineCollision = function(A, B){
+
+    // vector from circle's center to line start point
+    var circleToLineStart = A.position.clone().subtract(B.start);
+    
+    // line normalized
+    var lineNormal = B.end.clone().normalize();
+    // if circle is in line context
+    var lineDotContext = circleToLineStart.dot(lineNormal);
+
+    // circle to line collision
+    if(lineDotContext > 0 && lineDotContext < B.length){
+
+        var lineLeftNormal = lineNormal.leftNormal();
+        var side = circleToLineStart.dot(lineLeftNormal);
+
+        // left side
+        if(side > 0){
+
+            var closestPoint = A.position.clone().add(lineLeftNormal.clone().multiply(-A.source.radius));
+
+            var closestPointToLineStart = closestPoint.clone().subtract(B.start);
+            var overlap = closestPointToLineStart.dot(lineLeftNormal);
+
+            if(overlap < 0){
+                this.collisionPoint = closestPoint;
+                this.overlap = overlap;
+                this.resolution = lineLeftNormal.clone().multiply(-overlap);
+                this.normal = lineLeftNormal;
+                return true;
+            }
+
+        }else{ // right side
+
+            var closestPoint = A.position.clone().add(lineLeftNormal.clone().multiply(A.source.radius));
+
+            var closestPointToLineStart = closestPoint.clone().subtract(B.start);
+            var overlap = closestPointToLineStart.dot(lineLeftNormal);
+
+            if(overlap > 0){
+                this.collisionPoint = closestPoint;
+                this.overlap = overlap;
+                this.resolution = lineLeftNormal.multiply(-overlap);
+                this.normal = lineLeftNormal.clone().multiply(-1);
+                return true;
+            }
+
+        }
+
+    }else{ // point to circle collision
+
+        var lineEndPoint = B.start.clone().add(B.end);
+        var circleToLineEnd = A.position.clone().subtract(lineEndPoint);
+        var distanceToStart = Math.abs(circleToLineStart.dot(lineNormal));
+        var distanceToEnd = Math.abs(circleToLineEnd.dot(lineNormal));
+        
+        if(distanceToStart < distanceToEnd){
+            return this.pointToCircleCollision(B.start, A);
+        }else{
+            return this.pointToCircleCollision(lineEndPoint, A);
+        }
+
+    }
 
 }
 
