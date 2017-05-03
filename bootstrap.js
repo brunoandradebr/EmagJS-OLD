@@ -640,7 +640,7 @@ var libRequest = new FileRequest([
 	libRoot + 'Resource/Font/pressStart.ttf',
 	libRoot + 'Resource/Font/commodore.ttf',
 	libRoot + 'Resource/Image/background.png',
-	]);
+	]); 
 
 
 
