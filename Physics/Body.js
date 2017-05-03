@@ -22,6 +22,7 @@ function Body(renderObject){
 
     this.mass = _mass;
     this.damping = .99;
+    this.bounce = -0.5;
 
     this.forceAccumulator = new Vector(0, 0);
 
