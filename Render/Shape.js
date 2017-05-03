@@ -70,6 +70,20 @@ Shape.prototype.getSupportPoints = function(axis){
 
 }
 
+Shape.prototype.getLines = function(){
+
+    var _this = this;
+
+    var lines = [];
+
+    _this.source.getLines().forEach(function(line){
+        line.start = line.start.clone().add(_this.position);
+        lines.push(line);
+    });
+
+    return lines;
+}
+
 Shape.prototype.draw = function(graphics){
 
     graphics.save();

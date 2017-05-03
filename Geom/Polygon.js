@@ -107,3 +107,20 @@ Polygon.prototype.getPlanes = function(){
     return planes;
 
 }
+
+Polygon.prototype.getLines = function(){
+
+    var lines = [];
+
+    var points = this.points;
+
+    for(var i = 0; i < points.length; i++){
+        var pointA = points[i];
+        var pointB = points[(i + 1) % points.length];
+        var line = new Line(pointA, pointB.clone().subtract(pointA));
+        lines.push(line);
+    }
+
+    return lines;
+
+}
