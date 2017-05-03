@@ -8,6 +8,11 @@ CollisionHandler.prototype.constructor = CollisionHandler;
 
 CollisionHandler.prototype.check = function(A, B, offset){
 
+    this.collisionPoint = null;
+    this.overlap = null;
+    this.normal = null;
+    this.resolution = null;
+
     var typeA = A.constructor.name;
     var typeB = B.constructor.name;
 
