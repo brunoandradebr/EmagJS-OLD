@@ -21,9 +21,13 @@ Vector.fromAngle = function(angle, length){
     return new Vector(x, y);
 }
 
-Vector.random = function(length){
-    var length = length || 1;
-    return Vector.fromAngle(random(360), length);
+Vector.random = function(){
+    if(arguments.length == 1){
+        var length = arguments[0] || 1;
+        return Vector.fromAngle(random(360), length);
+    }else{
+        return new Vector(random(arguments[0]) + (arguments[2] || 0), random(arguments[1]) + (arguments[3] || 0));
+    }
 }
 
 Vector.angle = function(A, B, inDegree){
