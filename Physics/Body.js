@@ -48,7 +48,7 @@ Body.prototype.calculateInverseMass = function(mass){
 Body.prototype.applyForce = function(x, y, z){
 
     if(arguments.length == 1){
-        this.forceAccumulator.add(x/*.clone().multiply(1000)*/);
+        this.forceAccumulator.add(x);
     }else{
         this.forceAccumulator.add(x, y, z);
     }
@@ -57,12 +57,14 @@ Body.prototype.applyForce = function(x, y, z){
 
 Body.prototype.update = function(dt){
 
+    var dt = dt || 1;
+
     var force = this.forceAccumulator.multiply(this.iMass);
     var acceleration = this.acceleration.add(force);
     var velocity = this.velocity;
 
-    this.velocity.add(acceleration/*.clone().multiply(dt)*/);
-    this.position.add(velocity/*.clone().multiply(dt)*/);
+    this.velocity.add(acceleration.clone().multiply(dt));
+    this.position.add(velocity.clone().multiply(dt));
 
     this.acceleration.update(0, 0);
     this.forceAccumulator.update(0, 0);
