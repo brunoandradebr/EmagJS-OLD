@@ -12,8 +12,10 @@
 * author Bruno Andrade <bruno.faria.andrade@gmail.com>
 *
 */
-function Movie(){
+function Movie(fps){
 
+    this.fps = fps || 60;
+    this.ifps = 1 / this.fps;
     this.scenes = [];
     this.pausedScenes = [];
     this.RAFID = undefined;
@@ -100,6 +102,9 @@ Movie.prototype.playScene = function(ArSceneID){
 
         var dt = window.performance.now() - last;
 
+        // limit max fps to _this.fps
+        dt = Math.min(dt, _this.ifps * 1000);
+
         scenes.forEach(function(Scene, i){
 
             var paused = false;
@@ -112,7 +117,7 @@ Movie.prototype.playScene = function(ArSceneID){
             requestAnimationFrame(function(){
                 if(!paused){
                     Scene.graphics.clearRect(0, 0, Scene.graphics.canvas.width, Scene.graphics.canvas.height);
-                    Scene.onLoop(Scene, dt * 0.001);
+                    Scene.onLoop(Scene, (dt * 0.001 /* dt / 1000 */) * _this.fps);
                 }
             });
 
