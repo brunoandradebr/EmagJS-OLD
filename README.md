@@ -8,7 +8,7 @@ A game engine made from the scratch for the purpose of studying game development
 * **App/**
   * Index.html
   * Script.js
-  * EmagJs/
+* **EmagJS/**
   
 <br>
 
