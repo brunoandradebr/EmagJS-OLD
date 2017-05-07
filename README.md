@@ -3,11 +3,11 @@ A game engine made from the scratch for the purpose of studying game development
 
 
 ## Usage
-<br>
-**Create your project structure** :
-  * App/
-   * Index.html
-   * Script.js
+
+**Create your project structure** : <br>
+* **App/**
+  * Index.html
+  * Script.js
   * EmagJs/
   
 <br>
