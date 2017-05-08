@@ -21,7 +21,7 @@ function Scene(ID, SettingsObject){
     
 
     // frame rate debug
-    _this.frameRate = new FrameRate();
+    _this.frameRate = (!_this.frameRate) ? new FrameRate() : _this.frameRate;
 
     // Scene appearance settings
     _this.x = SettingsObject.x || 0;
