@@ -118,6 +118,8 @@ Movie.prototype.playScene = function(ArSceneID){
                 if(!paused){
                     Scene.graphics.clearRect(0, 0, Scene.graphics.canvas.width, Scene.graphics.canvas.height);
                     Scene.onLoop(Scene, (dt * 0.001 /* dt / 1000 */) * _this.fps);
+                    if(Scene.frameRate)
+                        Scene.frameRate.draw(Scene.graphics);
                 }
             });
 

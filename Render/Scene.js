@@ -16,8 +16,12 @@
 function Scene(ID, SettingsObject){
 
     var _this = this;
-
+    
     _this.ID = ID;
+    
+
+    // frame rate debug
+    _this.frameRate = new FrameRate();
 
     // Scene appearance settings
     _this.x = SettingsObject.x || 0;
