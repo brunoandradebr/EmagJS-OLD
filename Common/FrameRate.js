@@ -52,6 +52,7 @@ FrameRate.prototype.draw = function(graphics){
     // draw background
     this._bgX = DEVICE_WIDTH - this._bgWidth;
     this._bgY = this._bgMargin.y;
+    graphics.save();
     graphics.fillStyle = 'rgba(0, 0, 0, 0.7)';
     graphics.fillRect(this._bgX - this._bgMargin.x, this._bgY, this._bgWidth, this._bgHeight);
     
@@ -69,5 +70,6 @@ FrameRate.prototype.draw = function(graphics){
     this._label.y = (this._bgY + this._bgHeight * this._labelMargin.y + this._labelPadding.y) - this._label.size * this._labelMargin.y + this._labelPadding.y;
     // draw text
     this._label.draw(graphics);
+    graphics.restore();
 
 }
