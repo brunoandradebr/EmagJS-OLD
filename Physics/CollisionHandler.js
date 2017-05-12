@@ -18,17 +18,22 @@ CollisionHandler.prototype.check = function(A, B, offset){
 
     // shape collision handler - SAT
     if((typeA == 'Shape' && typeB == 'Shape') && A.source.constructor.name != 'Circle' && B.source.constructor.name != 'Circle') return this.SAT(A, B, offset);
-    
+
     if(typeA == 'Shape') typeA = A.source.constructor.name;
     if(typeB == 'Shape') typeB = B.source.constructor.name;
 
-    // line collision
+    // line to line collision
     if(typeA == 'Line' && typeB == 'Line'){
         return this.lineToLineCollision(A, B);
     }
+    // line to list of lines collision
     if(typeA == 'Line' && (typeB == 'Array' && B[0].constructor.name == 'Line')){
         return this.lineToLineListCollision(A, B);
     }    
+    // line to shape/polygon collision
+    if(typeA == 'Line' && B.constructor.name == 'Shape'){
+        return this.lineToShapeCollision(A, B);
+    }
 
     // circle collision
     if(typeA == 'Circle' && typeB == 'Circle'){
@@ -215,6 +220,20 @@ CollisionHandler.prototype.lineToLineListCollision = function(A, B){
     this.collisionPoint = A.start.clone().add(closestCollisionPoint);
     
     return closestCollisionPoint ? true : false;
+}
+
+CollisionHandler.prototype.lineToShapeCollision = function(A, B){
+
+    if(B.source.constructor.name == 'Circle'){
+
+    }else{
+
+        var shapeLines = B.getLines();
+
+        return this.lineToLineListCollision(A, shapeLines);
+
+    }
+
 }
 
 CollisionHandler.prototype.circleToCircleCollision = function(A, B){
