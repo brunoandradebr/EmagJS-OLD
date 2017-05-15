@@ -24,20 +24,20 @@ CollisionHandler.prototype.check = function(A, B, offset){
 
     // line to line collision
     if(typeA == 'Line' && typeB == 'Line'){
-        return this.lineToLineCollision(A, B);
+        return this.lineToLineCollision(A, B, offset);
     }
     // line to list of lines collision
     if(typeA == 'Line' && (typeB == 'Array' && B[0].constructor.name == 'Line')){
-        return this.lineToLineListCollision(A, B);
+        return this.lineToLineListCollision(A, B, offset);
     }    
     // line to shape/polygon collision
     if(typeA == 'Line' && B.constructor.name == 'Shape'){
-        return this.lineToShapeCollision(A, B);
+        return this.lineToShapeCollision(A, B, offset);
     }
 
     // line to list of shape/polygon collision
     if(typeA == 'Line' && (typeB == 'Array' && B[0].constructor.name == 'Shape')){
-        return this.lineToShapeListCollision(A, B);
+        return this.lineToShapeListCollision(A, B, offset);
     } 
 
     // circle collision
@@ -182,12 +182,14 @@ CollisionHandler.prototype.SAT = function(A, B, offset){
     return true;
 }
 
-CollisionHandler.prototype.lineToLineCollision = function(A, B){
+CollisionHandler.prototype.lineToLineCollision = function(A, B, offset){
+
+    var offset = offset || {x : 0, y : 0};
 
     var aux = B.start.clone().subtract(A.start);
 
-    var dot1 = aux.cross(B.end) - 0.1;
-    var dot2 = A.end.cross(B.end) + 0.1;
+    var dot1 = aux.cross(B.end) - offset.x;
+    var dot2 = A.end.cross(B.end) + offset.y;
 
     var t = dot1 / dot2;
 
@@ -206,7 +208,7 @@ CollisionHandler.prototype.lineToLineCollision = function(A, B){
     return false;
 }
 
-CollisionHandler.prototype.lineToLineListCollision = function(A, B){
+CollisionHandler.prototype.lineToLineListCollision = function(A, B, offset){
 
     var _collision = this;
 
@@ -215,7 +217,7 @@ CollisionHandler.prototype.lineToLineListCollision = function(A, B){
     
     B.forEach(function(line){
 
-        if(_collision.check(A, line)){
+        if(_collision.check(A, line, offset)){
 
             var collisionDistance = _collision.collisionPoint.subtract(A.start);
 
@@ -232,7 +234,7 @@ CollisionHandler.prototype.lineToLineListCollision = function(A, B){
     return closestCollisionPoint ? true : false;
 }
 
-CollisionHandler.prototype.lineToShapeCollision = function(A, B){
+CollisionHandler.prototype.lineToShapeCollision = function(A, B, offset){
 
     if(B.source.constructor.name == 'Circle'){
 
@@ -242,13 +244,13 @@ CollisionHandler.prototype.lineToShapeCollision = function(A, B){
 
         var shapeLines = B.getLines();
 
-        return this.lineToLineListCollision(A, shapeLines);
+        return this.lineToLineListCollision(A, shapeLines, offset);
 
     }
 
 }
 
-CollisionHandler.prototype.lineToShapeListCollision = function(A, B){
+CollisionHandler.prototype.lineToShapeListCollision = function(A, B, offset){
 
     var lines = [];
     B.forEach(function(shape){
@@ -258,7 +260,7 @@ CollisionHandler.prototype.lineToShapeListCollision = function(A, B){
         });
     });
 
-    return this.check(A, lines);
+    return this.check(A, lines, offset);
 
 }
 
