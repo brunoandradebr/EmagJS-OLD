@@ -84,6 +84,22 @@ Shape.prototype.getLines = function(){
     return lines;
 }
 
+Shape.prototype.getPoints = function(){
+
+    var _this = this;
+
+    var points = [];
+
+    _this.source.points.forEach(function(point){
+
+        points.push(point.clone().add(_this.position));
+
+    });
+
+    return points;
+
+}
+
 Shape.prototype.draw = function(graphics){
 
     graphics.save();
