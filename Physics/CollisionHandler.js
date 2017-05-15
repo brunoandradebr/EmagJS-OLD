@@ -226,6 +226,8 @@ CollisionHandler.prototype.lineToShapeCollision = function(A, B){
 
     if(B.source.constructor.name == 'Circle'){
 
+        // todo...
+
     }else{
 
         var shapeLines = B.getLines();
