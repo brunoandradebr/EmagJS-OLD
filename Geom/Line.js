@@ -17,6 +17,10 @@ Line.fromAngle = function(start, angle, length, strokeWidth, strokeColor){
     return new Line(start, Vector.fromAngle(angle, length), strokeWidth, strokeColor);
 }
 
+Line.prototype.center = function(){
+    return this.start.clone().add(this.end.clone().multiply(0.5));
+}
+
 Line.prototype.angle = function(inDegree){
     return this.end.angle(inDegree);
 }
