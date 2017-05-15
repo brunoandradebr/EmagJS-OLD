@@ -35,6 +35,11 @@ CollisionHandler.prototype.check = function(A, B, offset){
         return this.lineToShapeCollision(A, B);
     }
 
+    // line to list of shape/polygon collision
+    if(typeA == 'Line' && (typeB == 'Array' && B[0].constructor.name == 'Shape')){
+        return this.lineToShapeListCollision(A, B);
+    } 
+
     // circle collision
     if(typeA == 'Circle' && typeB == 'Circle'){
         return this.circleToCircleCollision(A, B);
@@ -235,6 +240,20 @@ CollisionHandler.prototype.lineToShapeCollision = function(A, B){
         return this.lineToLineListCollision(A, shapeLines);
 
     }
+
+}
+
+CollisionHandler.prototype.lineToShapeListCollision = function(A, B){
+
+    var lines = [];
+    B.forEach(function(shape){
+        var shapeLines = shape.getLines();
+        shapeLines.forEach(function(line){
+            lines.push(line);
+        });
+    });
+
+    return this.check(A, lines);
 
 }
 
