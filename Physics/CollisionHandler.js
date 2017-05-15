@@ -75,6 +75,11 @@ CollisionHandler.prototype.check = function(A, B, offset){
         return this.pointToCircleCollision(A, B, offset);
     }
 
+    // point(vector) to shape collision
+    if(typeA == 'Vector' && B.constructor.name == 'Shape'){
+        return this.pointToShapeCollision(A, B, offset);
+    }
+
 }
 
 CollisionHandler.prototype.SAT = function(A, B, offset){
@@ -181,8 +186,8 @@ CollisionHandler.prototype.lineToLineCollision = function(A, B){
 
     var aux = B.start.clone().subtract(A.start);
 
-    var dot1 = aux.cross(B.end);
-    var dot2 = A.end.cross(B.end);
+    var dot1 = aux.cross(B.end) - 0.1;
+    var dot2 = A.end.cross(B.end) + 0.1;
 
     var t = dot1 / dot2;
 
@@ -526,4 +531,21 @@ CollisionHandler.prototype.pointToCircleCollision = function(A, B, offset){
 
     return this.circleToCircleCollision(new Shape(new Circle(1 * offset), A), B);
 
+}
+
+CollisionHandler.prototype.pointToShapeCollision = function(A, B, g){
+
+    var inside = true;
+
+    B.getLines().forEach(function(line){
+
+        var pointToLine = line.start.clone().subtract(A);
+        var dot = pointToLine.dot(line.end.leftNormal());
+
+        if(dot < 0)
+            inside = false;
+
+    });
+
+    return inside;
 }
