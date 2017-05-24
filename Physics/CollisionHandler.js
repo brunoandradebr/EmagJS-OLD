@@ -80,6 +80,13 @@ CollisionHandler.prototype.check = function(A, B, offset){
         return this.pointToShapeCollision(A, B, offset);
     }
 
+    // length constraint to boundary
+    if(typeA == 'LengthConstraint' && B == 'boundary'){
+        for(var i in A.bodies){
+            this.circleToBoundaryCollision(A.bodies[i]);
+        }
+    }
+
 }
 
 CollisionHandler.prototype.SAT = function(A, B, offset){
