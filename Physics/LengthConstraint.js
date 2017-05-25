@@ -100,6 +100,24 @@ LengthConstraint.prototype.getLines = function(){
 
 }
 
+LengthConstraint.prototype.getPolygon = function(){
+
+    var points = [];
+
+    this.bodies.forEach(function(body){
+
+        points.push(body.position);
+
+    });
+
+    var polygon = new Polygon(points);
+    var shape = new Shape(polygon);
+    shape.position.update(0, 0);
+
+    return shape;
+
+}
+
 LengthConstraint.prototype.draw = function(graphics){
 
     // draw lines
