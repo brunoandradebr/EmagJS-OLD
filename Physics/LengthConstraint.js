@@ -58,32 +58,38 @@ LengthConstraint.prototype.update = function(dt){
 
 }
 
-LengthConstraint.prototype.resolve = function(){
+LengthConstraint.prototype.resolve = function(iterations){
 
     var _this = this;
 
-    _this.constraints.forEach(function(constraint){
+    var iterations = iterations || 1;
 
-        var bodyA = constraint.bodyA;
-        var bodyB = constraint.bodyB;
+    for(var i = 0; i < iterations; i++){
 
-        var distance = bodyB.position.clone().subtract(bodyA.position);
-        var direction = distance.clone().normalize();
+        _this.constraints.forEach(function(constraint){
 
-        var velR = bodyB.body.velocity.clone().subtract(bodyA.body.velocity);
-        var velN = velR.dot(direction);
-        var disR = constraint.length - distance.length();
+            var bodyA = constraint.bodyA;
+            var bodyB = constraint.bodyB;
 
-        var impulse = direction.multiply(velN - disR);
+            var distance = bodyB.position.clone().subtract(bodyA.position);
+            var direction = distance.clone().normalize();
 
-        impulse.multiply(constraint.stiffness);
+            var velR = bodyB.body.velocity.clone().subtract(bodyA.body.velocity);
+            var velN = velR.dot(direction);
+            var disR = constraint.length - distance.length();
 
-        if(!bodyA.fixed)
-            bodyA.body.velocity.add(impulse);
-        if(!bodyB.fixed)
-            bodyB.body.velocity.subtract(impulse);
+            var impulse = direction.multiply(velN - disR);
 
-    });
+            impulse.multiply(constraint.stiffness);
+
+            if(!bodyA.fixed)
+                bodyA.body.velocity.add(impulse);
+            if(!bodyB.fixed)
+                bodyB.body.velocity.subtract(impulse);
+
+        });
+
+    }
 
 }
 
