@@ -1,6 +1,6 @@
-function Polygon(){
+function Polygon(points){
 
-    this.points = [];
+    this.points = points || [];
 
     this.originalPoints = this.points;
 
