@@ -41,7 +41,8 @@ LengthConstraint.prototype.addConstraint = function(indexA, indexB, length, stif
 LengthConstraint.prototype.applyForce = function(force){
 
     this.bodies.forEach(function(body){
-        body.body.applyForce(force);
+        if(!body.fixed)
+            body.body.applyForce(force);
     });
 
 }
@@ -51,7 +52,8 @@ LengthConstraint.prototype.update = function(dt){
     var dt = dt || 1;
 
     this.bodies.forEach(function(body){
-        body.body.update(dt);
+        if(!body.fixed)
+            body.body.update(dt);
     });
 
 }
@@ -76,10 +78,25 @@ LengthConstraint.prototype.resolve = function(){
 
         impulse.multiply(constraint.stiffness);
 
-        bodyA.body.velocity.add(impulse);
-        bodyB.body.velocity.subtract(impulse);
+        if(!bodyA.fixed)
+            bodyA.body.velocity.add(impulse);
+        if(!bodyB.fixed)
+            bodyB.body.velocity.subtract(impulse);
 
     });
+
+}
+
+LengthConstraint.prototype.getLines = function(){
+
+    var lines = [];
+
+    this.constraints.forEach(function(constraint){
+        var line = new Line(constraint.bodyA.position, constraint.bodyB.position.clone().subtract(constraint.bodyA.position));
+        lines.push(line);
+    });
+
+    return lines;
 
 }
 
