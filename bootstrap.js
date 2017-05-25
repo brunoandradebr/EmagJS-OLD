@@ -631,7 +631,7 @@ var libRequest = new FileRequest([
 	libRoot + 'Geom/Line.js',
 	libRoot + 'Physics/CollisionHandler.js',
 	libRoot + 'Physics/Body.js',
-	libRoot + 'Physics/LengthConstraint.js',
+	libRoot + 'Physics/DistanceConstraint.js',
 	libRoot + 'Render/Text.js',
 	libRoot + 'Render/Shape.js',
 	libRoot + 'Render/Scene.js',
