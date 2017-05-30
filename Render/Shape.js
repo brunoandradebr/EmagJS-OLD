@@ -19,6 +19,11 @@ function Shape(polygon, position, fillColor, lineColor, lineWidth){
     this.boundingBox = new Sprite(null, null, null, null, 'rgba(0, 255, 0, 0.3)', 1);
     this._updateBoundingBox();
 
+    var boundingBoxData = this.source.getBoundingBox();
+
+    this.minPoint = boundingBoxData.startPoint;
+    this.maxPoint = boundingBoxData.endPoint;
+
     this.width = this.boundingBox.width;
     this.height = this.boundingBox.height;
 
@@ -35,7 +40,6 @@ Shape.prototype.rotate = function(angle, x, y){
     this.angle = this.source.angle;
 
     this._updateBoundingBox();
-
 }
 
 Shape.prototype._updateBoundingBox = function(){
@@ -44,7 +48,7 @@ Shape.prototype._updateBoundingBox = function(){
 
         this.boundingBox.width = this.source.radius * 2;
         this.boundingBox.height = this.source.radius * 2;
-        this.boundingBox.position = this.position.clone();
+        this.boundingBox.position = this.position;
         
     }else{
 
@@ -56,6 +60,9 @@ Shape.prototype._updateBoundingBox = function(){
         this.boundingBox.width = width;
         this.boundingBox.height = height;
         this.boundingBox.position = this.position.clone().add(boundingBoxData.startPoint.clone().add(width * 0.5, height * 0.5));
+
+        this.minPoint = boundingBoxData.startPoint;
+        this.maxPoint = boundingBoxData.endPoint;
         
         // update shape size
         this.width = this.boundingBox.width;
@@ -147,6 +154,10 @@ Shape.prototype.draw = function(graphics){
             graphics.lineTo(this.position.x + pointB.x + padding, this.position.y + pointB.y + padding);
 
         }
+
+        // update bounding box position - non vector manner to performance gain
+        this.boundingBox.position.x = this.position.x  + this.minPoint.x + this.boundingBox.width * 0.5;
+        this.boundingBox.position.y = this.position.y  + this.minPoint.y + this.boundingBox.height * 0.5;
     }
 
     graphics.closePath();
