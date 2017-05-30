@@ -15,10 +15,12 @@ function Shape(polygon, position, fillColor, lineColor, lineWidth){
 
     this.angle = 0;
 
-    var boundingBox = this.getBoundingBox();
+    // create a bounding box sprite
+    this.boundingBox = new Sprite(null, null, null, null, 'rgba(0, 255, 0, 0.3)', 1);
+    this._updateBoundingBox();
 
-    this.width = boundingBox.size.width;
-    this.height = boundingBox.size.height;
+    this.width = this.boundingBox.width;
+    this.height = this.boundingBox.height;
 
     if(this.position.x == 0 && this.position.y == 0)
         this.position.update(this.width * 0.5, this.height * 0.5);
@@ -32,30 +34,33 @@ Shape.prototype.rotate = function(angle, x, y){
 
     this.angle = this.source.angle;
 
+    this._updateBoundingBox();
+
 }
 
-Shape.prototype.getBoundingBox = function(){
+Shape.prototype._updateBoundingBox = function(){
 
     if(this.source.constructor.name == 'Circle'){
 
-        var bb = {
-            startPoint : this.position.clone().subtract(this.source.radius),
-            size : {
-                width : this.source.radius * 2,
-                height : this.source.radius * 2
-            }
-        }
-
+        this.boundingBox.width = this.source.radius * 2;
+        this.boundingBox.height = this.source.radius * 2;
+        this.boundingBox.position = this.position.clone();
+        
     }else{
 
-        var bb = this.source.getBoundingBox();
+        // update bounding box size
+        var boundingBoxData = this.source.getBoundingBox();
+        var width = boundingBoxData.size.width;
+        var height = boundingBoxData.size.height;
 
-        bb.startPoint.add(this.position);
-        bb.endPoint.add(this.position);
-
+        this.boundingBox.width = width;
+        this.boundingBox.height = height;
+        this.boundingBox.position = this.position.clone().add(boundingBoxData.startPoint.clone().add(width * 0.5, height * 0.5));
+        
+        // update shape size
+        this.width = this.boundingBox.width;
+        this.height = this.boundingBox.height;
     }
-
-    return bb;
 
 }
 
