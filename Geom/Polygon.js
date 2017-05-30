@@ -1,6 +1,22 @@
 function Polygon(points){
 
-    this.points = points || [];
+    this.points = points;
+
+    // create a random polygon
+    if(!this.points){
+        this.points = [
+        new Vector(-random(80) * 0.5, random(80) * 0.5),
+        new Vector(-random(80) * 0.5, -random(80) * 0.5),
+        new Vector(random(80)  * 0.5, -random(80) * 0.5),
+        ];
+
+        // first point at center
+        var boundingBox = this.getBoundingBox();
+        var width = boundingBox.size.width;
+        var height = boundingBox.size.height;
+
+        this.points.unshift(new Vector(width * 0.5, height * 0.5));
+    }
 
     this.originalPoints = this.points;
 

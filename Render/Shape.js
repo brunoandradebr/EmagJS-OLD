@@ -1,6 +1,6 @@
-function Shape(Polygon, position, fillColor, lineColor, lineWidth){
+function Shape(polygon, position, fillColor, lineColor, lineWidth){
 
-    this.source = Polygon;
+    this.source = polygon || new Polygon();
 
     this.position = position || new Vector(0, 0);
 
