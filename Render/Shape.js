@@ -33,6 +33,20 @@ function Shape(polygon, position, fillColor, lineColor, lineWidth){
 }
 Shape.prototype.constructor = Shape;
 
+Shape.prototype.scale = function(scale){
+
+    var points = [];
+
+    this.source.originalPoints.forEach(function(originalPoints){
+        points.push(originalPoints.clone().multiply(scale));
+    });
+
+    this.source.points = points;
+
+    this._updateBoundingBox();
+
+}
+
 Shape.prototype.rotate = function(angle, x, y){
 
     this.source.rotate(angle, x, y);
