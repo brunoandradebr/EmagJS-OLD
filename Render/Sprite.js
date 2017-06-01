@@ -42,6 +42,9 @@ function Sprite(imageSource, position, width, height, fillColor, lineWidth, line
     this.animations = [];
     this.currentAnimation = this.animations[0];
 
+    this.startTime = window.performance.now();
+    this.dt = 0;
+
 }
 Sprite.prototype.constructor = Sprite;
 
@@ -85,13 +88,15 @@ Sprite.prototype.resumeAnimation = function(){
 
 }
 
-Sprite.prototype._playAnimation = function(dt){
+Sprite.prototype._playAnimation = function(){
 
     if(this.currentAnimation.paused) return false;
 
     if(this.currentAnimation.fps <= 0) return false;
 
-    this.currentAnimation.time += dt * 1000;
+    this.dt = window.performance.now() - this.startTime;
+
+    this.currentAnimation.time += this.dt;
 
     if(this.currentAnimation.time > this.currentAnimation.fps){
         this.currentAnimation.frameIndex++;
@@ -109,9 +114,11 @@ Sprite.prototype._playAnimation = function(dt){
 
     this.currentAnimation.currentFrame = this.currentAnimation.keys[this.currentAnimation.frameIndex];
 
+    this.startTime = window.performance.now();
+
 }
 
-Sprite.prototype.draw = function(graphics, dt){
+Sprite.prototype.draw = function(graphics){
 
     graphics.save();
 
@@ -168,10 +175,8 @@ Sprite.prototype.draw = function(graphics, dt){
         // if animated sprite
         if(this.currentAnimation){
 
-            if(!dt) throw(this.constructor.name + ' [draw] dt not defined');
-
             // animate frame
-            this._playAnimation(dt);
+            this._playAnimation();
 
             // draw current frame
             if(this.currentAnimation.frames[this.currentAnimation.currentFrame])
