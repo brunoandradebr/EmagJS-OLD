@@ -60,6 +60,11 @@ CollisionHandler.prototype.check = function(A, B, offset){
         return this.circleToBoundaryCollision(A);
     }
 
+    // circle to scene
+    if(typeA == 'Circle' && typeB == 'Scene'){
+        return this.circleToSceneCollision(A, B);
+    }
+
     // sprite collision
     if(typeA == 'Sprite' && typeB == 'Sprite'){
         return this.spriteToSpriteCollision(A, B);
@@ -452,6 +457,38 @@ CollisionHandler.prototype.circleToBoundaryCollision = function(A){
     return true;
 
 }
+
+CollisionHandler.prototype.circleToSceneCollision = function(A, B){
+
+    var radius = A.source.radius;
+
+    if(A.position.x + radius < B.width && A.position.x - radius > B.x && A.position.y + radius < B.height && A.position.y - radius > B.y) return false;
+
+    if(A.position.x + radius > (B.width)){
+        A.position.x = B.width - radius;
+        if(A.body)
+            A.body.velocity.x *= A.body.bounce;
+    }
+    if(A.position.x - radius < 0){
+        A.position.x = radius;
+        if(A.body)
+            A.body.velocity.x *= A.body.bounce;
+    }
+    if(A.position.y + radius > B.height){
+        A.position.y = B.height - radius;
+        if(A.body)
+            A.body.velocity.y *= A.body.bounce;
+    }
+    if(A.position.y - radius < 0){
+        A.position.y = radius;
+        if(A.body)
+            A.body.velocity.y *= A.body.bounce;
+    }
+
+    return true;
+
+}
+
 
 CollisionHandler.prototype.spriteToSpriteCollision = function(A, B){
 
