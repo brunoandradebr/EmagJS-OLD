@@ -49,10 +49,11 @@ function Scene(ID, SettingsObject){
         _this.center();
     }
 
-    //_this.canvas.style.width = _this.width + 'px';
-    //_this.canvas.style.height = _this.height + 'px';
     _this.canvas.width = _this.width;
     _this.canvas.height = _this.height;
+
+    _this.centerX = _this.x + _this.width * 0.5;
+    _this.centerY = _this.y + _this.height * 0.5;
 
     // append canvas to body
     document.querySelector('body').appendChild(_this.canvas);
@@ -76,6 +77,10 @@ function Scene(ID, SettingsObject){
 Scene.prototype.constructor = Scene;
 
 Scene.prototype.center = function(){
-    this.canvas.style.top = DEVICE_CENTER_Y - this.height * 0.5 + 'px';
-    this.canvas.style.left = DEVICE_CENTER_X - this.width * 0.5 + 'px';
+    var top = DEVICE_CENTER_Y - this.height * 0.5;
+    var left = DEVICE_CENTER_X - this.width * 0.5;
+    this.canvas.style.top = top + 'px';
+    this.canvas.style.left = left + 'px';
+    this.x = left;
+    this.y = top;
 }
