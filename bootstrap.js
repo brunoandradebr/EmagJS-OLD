@@ -235,7 +235,7 @@ FileRequest.prototype.request = function(){
 						});
 						break;
 
-						case 'png' : case 'jpg' :
+						case 'png' : case 'jpg' : case 'jpeg' :
 						_ImageFiles.push({
 							src : response.responseURL,
 							name : File.getFileName(response.responseURL),
