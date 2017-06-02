@@ -189,7 +189,7 @@ CollisionHandler.prototype.SAT = function(A, B, offset){
     // return manifold
     this.overlap = minOverlap;
     this.normal = axis;
-    this.resolution = this.normal.multiply(this.overlap);
+    this.resolution = this.normal.clone().multiply(this.overlap);
     
     return true;
 }
