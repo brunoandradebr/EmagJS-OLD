@@ -50,7 +50,7 @@ FrameRate.prototype.draw = function(graphics){
     }
 
     // draw background
-    this._bgX = DEVICE_WIDTH - this._bgWidth;
+    this._bgX = graphics.canvas.width - this._bgWidth;
     this._bgY = this._bgMargin.y;
     graphics.save();
     graphics.fillStyle = 'rgba(0, 0, 0, 0.7)';
