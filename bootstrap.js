@@ -419,7 +419,9 @@ FileRequest.prototype.preloadJsFiles = function(JsFiles, callback){
 				}
 
 				// removes script tag from head - security
-				document.querySelector('head').removeChild(scriptTag);
+				if(scriptTag.parentNode)
+					scriptTag.parentNode.removeChild(scriptTag);
+				//document.querySelector('head').removeChild(scriptTag);
 
 			}
 		});
