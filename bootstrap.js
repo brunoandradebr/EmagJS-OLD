@@ -206,7 +206,7 @@ FileRequest.prototype.request = function(){
 			var Request = new XMLHttpRequest();
 
 			// set response type based on file
-			if(File.getFileType(url) === 'mp3'){
+			if(File.getFileType(url) === 'mp3' || File.getFileType(url) === 'wav'){
 				Request.responseType = 'arraybuffer';
 			}else{
 				Request.responseType = 'text';
@@ -227,7 +227,7 @@ FileRequest.prototype.request = function(){
 						File.resource.script.length++;
 						break;
 
-						case 'mp3' :
+						case 'mp3' : case 'wav' :
 						_AudioFiles.push({
 							buffer : response.response,
 							name : File.getFileName(response.responseURL),
