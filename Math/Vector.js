@@ -351,6 +351,13 @@ Vector.prototype.update = function(x, y, z){
 
 }
 
+Vector.prototype.abs = function(){
+    this.x = Math.abs(this.x);
+    this.y = Math.abs(this.y);
+    this.z = Math.abs(this.z);
+    return this;
+}
+
 Vector.prototype.eq = function(V){
     var x = Math.abs(this.x - V.x);
     var y = Math.abs(this.y - V.y);
