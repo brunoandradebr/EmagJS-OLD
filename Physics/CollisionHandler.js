@@ -65,7 +65,12 @@ CollisionHandler.prototype.check = function(A, B, offset){
         return this.circleToSceneCollision(A, B);
     }
 
-    // sprite collision
+    // sprite to scene
+    if(typeA == 'Sprite' && typeB == 'Scene'){
+        return this.spriteToSceneCollision(A, B);
+    }
+
+    // sprite to sprite collision
     if(typeA == 'Sprite' && typeB == 'Sprite'){
         return this.spriteToSpriteCollision(A, B);
     }
@@ -489,6 +494,35 @@ CollisionHandler.prototype.circleToSceneCollision = function(A, B){
 
 }
 
+CollisionHandler.prototype.spriteToSceneCollision = function(A, B){
+
+    if(A.position.x + A.width * 0.5 > B.width){
+        this.normal = new Vector(-1, 0);
+        this.overlap = (A.position.x + A.width * 0.5) - B.width;
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        return true;
+    }
+    if(A.position.x - A.width * 0.5 < 0){
+        this.normal = new Vector(1, 0);
+        this.overlap = -(A.position.x - A.width * 0.5);
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        return true;
+    }
+    if(A.position.y - A.height * 0.5 < 0){
+        this.normal = new Vector(0, 1);
+        this.overlap = -(A.position.y - A.height * 0.5);
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        return true;
+    }
+    if(A.position.y + A.height * 0.5 > B.height){
+        this.normal = new Vector(0, -1);
+        this.overlap = (A.position.y + A.height * 0.5) - B.height;
+        this.resolution = this.normal.clone().multiply(this.overlap);
+        return true;
+    }
+    
+    return false;
+}
 
 CollisionHandler.prototype.spriteToSpriteCollision = function(A, B){
 
