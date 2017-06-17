@@ -124,6 +124,7 @@ Sprite.prototype._playAnimation = function(){
             this.currentAnimation.frameIndex = this.currentAnimation.frames.length - 1;
             this.currentAnimation.completed = true;
             if(this.currentAnimation.next){
+                this.currentAnimation.frameIndex = 0;
                 this.animations[this.currentAnimation.next].frameIndex = 0;
                 this.setAnimation(this.currentAnimation.next);
             }
