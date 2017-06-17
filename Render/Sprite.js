@@ -49,7 +49,20 @@ function Sprite(imageSource, position, width, height, fillColor, lineWidth, line
 Sprite.prototype.constructor = Sprite;
 
 
-Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps, loop){
+Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps, loop, next){
+
+    if(keys.indexOf('...') > -1){
+        
+        var start = keys[0];
+        var end = keys[2];
+
+        // reset keys array
+        keys.length = 0;
+
+        for(var i = start; i <= end; i++){
+            keys.push(i); 
+        }
+    }
 
     this.animations[IDAnimation] = {
         id : IDAnimation,
@@ -60,6 +73,7 @@ Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps, loop){
         stoped : false,
         completed : false,
         loop : loop || false,
+        next : next || false,
         frameIndex : 0,
         currentFrame : 0,
         fps : 1000 / fps || 30,
@@ -109,6 +123,10 @@ Sprite.prototype._playAnimation = function(){
         }else{
             this.currentAnimation.frameIndex = this.currentAnimation.frames.length - 1;
             this.currentAnimation.completed = true;
+            if(this.currentAnimation.next){
+                this.animations[this.currentAnimation.next].frameIndex = 0;
+                this.setAnimation(this.currentAnimation.next);
+            }
         }
     }
 
