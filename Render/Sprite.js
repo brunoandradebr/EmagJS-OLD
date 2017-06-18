@@ -52,7 +52,7 @@ Sprite.prototype.constructor = Sprite;
 Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps, loop, next){
 
     if(keys.indexOf('...') > -1){
-        
+
         var start = keys[0];
         var end = keys[2];
 
@@ -126,7 +126,9 @@ Sprite.prototype._playAnimation = function(){
             if(this.currentAnimation.next){
                 this.currentAnimation.frameIndex = 0;
                 this.animations[this.currentAnimation.next].frameIndex = 0;
-                this.setAnimation(this.currentAnimation.next);
+                //this.setAnimation(this.currentAnimation.next);
+                this.currentAnimation = this.animations[this.currentAnimation.next];
+                this.currentAnimation.currentFrame = 0;
             }
         }
     }
