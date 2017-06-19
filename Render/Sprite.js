@@ -86,8 +86,13 @@ Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps, loop, n
 
 Sprite.prototype.setAnimation = function(IDAnimation){
 
+    if(this.currentAnimation){
+        if(this.currentAnimation.id != IDAnimation){
+            this.animations[IDAnimation].frameIndex = 0;
+        }
+    }
+
     this.currentAnimation = this.animations[IDAnimation];
-    this.currentAnimation.currentFrame = 0;
 }
 
 Sprite.prototype.pauseAnimation = function(){
