@@ -32,6 +32,8 @@ function Sprite(imageSource, position, width, height, fillColor, lineWidth, line
     this.shadowOffsetY = 3;
     this.smoothPixel = false;
     this.alpha = 1;
+    this.scaleX = 1;
+    this.scaleY = 1;
 
     // define default fillColor
     if(this.spriteSheet == null && this.fillColor == null && this.lineWidth <= 0){
@@ -160,9 +162,9 @@ Sprite.prototype.draw = function(graphics){
         graphics.shadowOffsetY = this.shadowOffsetY;
     }
 
-    graphics.translate(this.position.x - this.width * 0.5 * this.anchor.x, this.position.y - this.height * 0.5 * this.anchor.y);
+    graphics.translate(this.position.x - this.width * 0.5 * this.anchor.x * this.scaleX, this.position.y - this.height * 0.5 * this.anchor.y * this.scaleY);
     graphics.rotate(-this.angle * TO_RAD);
-
+    graphics.scale(this.scaleX, this.scaleY);
 
     // alpha
     if(this.alpha < 0) this.alpha = 0;
