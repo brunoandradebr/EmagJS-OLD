@@ -90,6 +90,7 @@ Sprite.prototype.setAnimation = function(IDAnimation){
 
     if(this.currentAnimation){
         if(this.currentAnimation.id != IDAnimation){
+            this.animations[IDAnimation].completed = false;
             this.animations[IDAnimation].frameIndex = 0;
         }
     }
