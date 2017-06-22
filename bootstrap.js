@@ -521,6 +521,9 @@ FileRequest.prototype.preloadAudioFiles = function(AudioFiles, callback){
 					if(callback)
 						callback();
 				}
+
+				Audio.close();
+
 			});
 
 		});
