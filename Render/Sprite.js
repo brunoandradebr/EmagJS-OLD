@@ -129,7 +129,7 @@ Sprite.prototype._playAnimation = function(){
         if(this.currentAnimation.loop){
             this.currentAnimation.frameIndex = 0;
         }else{
-            this.currentAnimation.frameIndex = this.currentAnimation.frames.length - 1;
+            this.currentAnimation.frameIndex = this.currentAnimation.keys.length - 1;
             this.currentAnimation.completed = true;
             if(this.currentAnimation.next){
                 this.currentAnimation.frameIndex = 0;
