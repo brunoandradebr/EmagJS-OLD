@@ -3,6 +3,7 @@ function Vector(x, y, z){
     this.y = y || 0;
     this.z = z || 0;
 }
+
 Vector.prototype.constructor = Vector;
 
 Vector.fromArray = function(array){
