@@ -3,7 +3,7 @@ function Vector(x, y, z){
     this.y = y || 0;
     this.z = z || 0;
 }
-
+console.log('tete')
 Vector.prototype.constructor = Vector;
 
 Vector.fromArray = function(array){
