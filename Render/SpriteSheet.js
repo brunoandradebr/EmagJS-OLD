@@ -258,3 +258,80 @@ SpriteSheet.prototype.clone = function(){
     return new SpriteSheet(this.image);
 
 }
+
+SpriteSheet.prototype.generateGridLabel = function(width, height, scale, lineColor, labelColor, backgroundColor, alpha){
+
+    var scale = scale || 1;
+    var labelColor = labelColor || 'orange';
+    var lineColor = lineColor || 'black';
+    var backgroundColor = backgroundColor || 'transparent';
+    var alpha = alpha || 1;
+
+    var imageW = this.image.width;
+    var imageH = this.image.height;
+
+    var col = Math.round(imageW / width);
+    var lin = Math.round(imageH / height);
+
+    // create a canvas to manipulate image pixels
+    var canvas = document.createElement('canvas');
+    canvas.width = this.image.width * scale;
+    canvas.height = this.image.height * scale;
+    canvas.style.top = 150 + 'px';
+    canvas.style.left = 150 + 'px';
+    canvas.style.width = this.image.width * scale + 'px';
+    canvas.style.height = this.image.height * scale + 'px';
+
+    // draw to the canvas to copy image data
+    var graphics = canvas.getContext('2d');
+    graphics.scale(scale, scale);
+    
+    graphics.mozImageSmoothingEnabled = false;
+    graphics.webkitImageSmoothingEnabled = false;
+    graphics.msImageSmoothingEnabled = false;
+    graphics.imageSmoothingEnabled = false;
+
+    graphics.fillStyle = backgroundColor;
+    graphics.fillRect(0, 0, canvas.width, canvas.height);
+    graphics.drawImage(this.image, 0, 0);
+    
+    graphics.strokeStyle = lineColor;
+    graphics.globalAlpha = alpha;
+    graphics.lineWidth = 0.5 * 0.5;
+    graphics.beginPath();
+
+    for(var x = 0.25 * 0.5; x < imageW; x += width){
+        graphics.moveTo(x, 0);
+        graphics.lineTo(x, imageH);
+    }
+    for(var y = 0.25 * 0.5; y < imageH; y += height){
+        graphics.moveTo(0, y);
+        graphics.lineTo(imageW, y);
+    }
+
+    graphics.moveTo(imageW - 0.25 * 0.5, 0);
+    graphics.lineTo(imageW - 0.25 * 0.5, imageH);
+
+    graphics.moveTo(0, imageH - 0.25 * 0.5);
+    graphics.lineTo(imageW, imageH - 0.25 * 0.5);
+
+    graphics.stroke();
+    graphics.closePath();
+    
+    graphics.fillStyle = labelColor;
+    graphics.font = '4px courier';
+    var i = 0;
+    for(var y = 0; y <= lin; y++){
+        for(var x = 0; x < col; x++){
+            graphics.fillText(i - col, x * width + 2, y * height - 2);
+            i++;
+        }
+    }
+
+    // update image with the modified pixels
+    var image = new Image();
+    image.src = canvas.toDataURL('image/png');
+    
+    window.open(image.src);
+
+}
