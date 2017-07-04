@@ -50,6 +50,11 @@ function Sprite(imageSource, position, width, height, fillColor, lineWidth, line
 }
 Sprite.prototype.constructor = Sprite;
 
+Sprite.prototype.setAnimationFPS = function(IDAnimation, fps){
+
+    this.animations[IDAnimation].fps = 1000 / fps || 30;
+
+}
 
 Sprite.prototype.addAnimation = function(IDAnimation, frames, keys, fps, loop, next){
 
