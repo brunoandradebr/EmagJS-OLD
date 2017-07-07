@@ -398,7 +398,7 @@ FileRequest.prototype.preloadJsFiles = function(JsFiles, callback){
 			var scriptTag = document.createElement('script');
 			scriptTag.type = 'text/javascript';
 			scriptTag.async = false;
-			scriptTag.src = url;
+			scriptTag.src = url + '?q=' + Math.random() * 9999;
 
 			// append script tag to html head
 			document.querySelector('head').appendChild(scriptTag);
