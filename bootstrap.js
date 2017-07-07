@@ -398,7 +398,7 @@ FileRequest.prototype.preloadJsFiles = function(JsFiles, callback){
 			var scriptTag = document.createElement('script');
 			scriptTag.type = 'text/javascript';
 			scriptTag.async = false;
-			scriptTag.src = url + '?q=' + Math.random() * 9999;
+			scriptTag.src = url;
 
 			// append script tag to html head
 			document.querySelector('head').appendChild(scriptTag);
@@ -456,7 +456,7 @@ FileRequest.prototype.preloadImageFiles = function(ImageFiles, callback){
 
 			// create image tag to force preload
 			var imageTag = new Image();
-			imageTag.src = image.src + '?q=' + Math.random() * 9999;
+			imageTag.src = image.src;
 
 			// load image
 			imageTag.onload = function(){
