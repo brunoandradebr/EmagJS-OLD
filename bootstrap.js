@@ -456,7 +456,7 @@ FileRequest.prototype.preloadImageFiles = function(ImageFiles, callback){
 
 			// create image tag to force preload
 			var imageTag = new Image();
-			imageTag.src = image.src;
+			imageTag.src = image.src + '?q=' + Math.random() * 9999;
 
 			// load image
 			imageTag.onload = function(){
