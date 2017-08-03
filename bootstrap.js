@@ -158,6 +158,7 @@ function FileRequest(ArUrl){
 	this.resource = {
 		url    : [],
 		script : [],
+		text   : [],
 		audio  : [],
 		image  : [],
 		font   : []
@@ -187,6 +188,10 @@ FileRequest.prototype.request = function(){
 	// js files loaded
 	var _JsFiles = [];
 	File.totalJsLoaded = 0;
+
+	// text files loaded
+	var _TextFiles = [];
+	File.totalTextLoaded = 0;
 
 	// audio files loaded
 	var _AudioFiles = [];
@@ -225,6 +230,14 @@ FileRequest.prototype.request = function(){
 						_JsFiles.length++;
 						File.resource.script[File.getFileName(response.responseURL)] = response.response;
 						File.resource.script.length++;
+						break;
+
+						case 'txt' :
+						_TextFiles[response.responseURL] = response.responseURL;
+						_TextFiles.length++;
+						File.resource.text[File.getFileName(response.responseURL)] = response.response;
+						File.resource.text.length++;
+						File.totalTextLoaded++;
 						break;
 
 						case 'mp3' : case 'wav' :
