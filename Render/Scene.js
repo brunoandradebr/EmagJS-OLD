@@ -68,7 +68,10 @@ function Scene(ID, SettingsObject){
     // scene mouse object
     _this.mouse = new Vector(DEVICE_CENTER_X, DEVICE_CENTER_Y);
     window.addEventListener('mousemove', function(e){
-        _this.mouse.update(e.clientX, e.clientY);
+        _this.mouse.update(e.clientX - _this.x, e.clientY - _this.y);
+    });
+    _this.canvas.addEventListener('mousedown', function(e){
+        _this.mouse.update(e.clientX - _this.x, e.clientY - _this.y);
     });
     _this.canvas.addEventListener('touchstart', function(e){
         _this.mouse.update(e.touches[0].clientX, e.touches[0].clientY);
